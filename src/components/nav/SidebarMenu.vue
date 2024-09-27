@@ -3,7 +3,7 @@
     <div class="top-wrapper transition-in-out flex flex-align-center flex-justify-between">
       <div class="flex flex-fill flex-align-center flex-justify-center">
         <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="30" height="30" />
-        <div>Menu</div>
+        <div class="uppercase">Menu</div>
       </div>
 
       <div
@@ -46,12 +46,20 @@ aside {
   left: calc(var(--sidebar-custom-width) * -1);
   z-index: var(--z-index-top);
 
+  .top-wrapper {
+    position: absolute;
+    width: calc(var(--sidebar-custom-width) + $margin);
+    background-color: var(--vt-c-black-soft);
+    border-bottom: 1px solid var(--vt-c-divider-dark-3);
+    margin-bottom: -1px;
+  }
+
   .arrow-ctn {
     width: $margin;
     height: $margin;
     cursor: pointer;
     border-color: transparent;
-    border-width: 1px;
+    border-width: 0 0 0 1px;
     border-style: solid;
   }
 
@@ -61,18 +69,10 @@ aside {
     height: 24px;
   }
 
-  .top-wrapper {
-    position: absolute;
-    width: calc(var(--sidebar-custom-width) + $margin);
-    background-color: var(--vt-c-black-soft);
-  }
-
   &.expanded {
     left: 0;
     .arrow-ctn {
-      // border-width: 1px;
-      border-color: transparent transparent var(--vt-c-divider-dark-3) var(--vt-c-divider-dark-3);
-      // border-style: solid;
+      border-color: transparent transparent transparent var(--vt-c-divider-dark-3);
     }
     .arrow {
       transform: rotate(-180deg);
