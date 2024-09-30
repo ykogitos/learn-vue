@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, useTemplateRef, defineProps } from 'vue'
+import { onMounted, ref, useTemplateRef } from 'vue'
 import type { LinkInterface } from '@/interfaces'
 
 defineProps<{
@@ -87,6 +87,13 @@ aside {
     padding: 0.875rem 1.5rem;
     color: var(--vt-c-white-soft);
     text-decoration: none;
+    transition: 0.4s;
+
+    &.router-link-active {
+      background-color: var(--vt-c-white-soft);
+      color: var(--vt-c-black-soft);
+      // transition: 0.4s;
+    }
   }
 
   &.expanded {
