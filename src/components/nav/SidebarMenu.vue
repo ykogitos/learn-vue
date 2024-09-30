@@ -1,3 +1,26 @@
+<script setup lang="ts">
+import { onMounted, ref, useTemplateRef, defineProps } from 'vue'
+import type { LinkInterface } from '@/interfaces'
+
+defineProps<{
+  links: Array<LinkInterface>
+}>()
+
+const toggle = ref<boolean>(false)
+const topWrapper = useTemplateRef('asideWidth')
+
+onMounted(() => {
+  const sidebarWidth = topWrapper.value?.clientWidth
+  const minWidth = 300
+  if (sidebarWidth) {
+    document.documentElement.style.setProperty(
+      '--sidebar-custom-width',
+      Math.max(minWidth, sidebarWidth) + 'px'
+    )
+  }
+})
+</script>
+
 <template>
   <aside :class="['flex', 'transition-in-out', { expanded: toggle }]" ref="asideWidth">
     <div class="top-wrapper transition-in-out flex flex-align-center flex-justify-between">
@@ -17,25 +40,12 @@
     </div>
 
     <ul>
-      <li v-for="n in 100" :key="'li' + n">Item {{ n + misc[n % 3] }}</li>
+      <li v-for="(link, index) in links" :key="'link-' + index">
+        <RouterLink :to="link.path" @click="() => (toggle = !toggle)">{{ link.name }}</RouterLink>
+      </li>
     </ul>
   </aside>
 </template>
-
-<script setup lang="ts">
-import { onMounted, ref, useTemplateRef } from 'vue'
-
-const toggle = ref<boolean>(false)
-const misc = [' Lorem ipsum dolor sit amer oulala et encore plus', ' Item ', ' Réalisations ']
-const topWrapper = useTemplateRef('asideWidth')
-
-onMounted(() => {
-  const sidebarWidth = topWrapper.value?.clientWidth
-  if (sidebarWidth) {
-    document.documentElement.style.setProperty('--sidebar-custom-width', sidebarWidth + 'px')
-  }
-})
-</script>
 
 <style scoped lang="scss">
 $margin: 3rem;
@@ -51,16 +61,17 @@ aside {
     width: calc(var(--sidebar-custom-width) + $margin);
     background-color: var(--vt-c-black-soft);
     border-bottom: 1px solid var(--vt-c-divider-dark-3);
-    margin-bottom: -1px;
   }
 
   .arrow-ctn {
     width: $margin;
     height: $margin;
     cursor: pointer;
-    border-color: transparent;
-    border-width: 0 0 0 1px;
-    border-style: solid;
+    margin-bottom: -1px;
+    border-bottom: 1px solid var(--vt-c-green-darken);
+    &:hover {
+      opacity: 0.6;
+    }
   }
 
   .arrow {
@@ -69,10 +80,20 @@ aside {
     height: 24px;
   }
 
+  a:link,
+  a:visited {
+    white-space: nowrap;
+    display: block;
+    padding: 0.875rem 1.5rem;
+    color: var(--vt-c-white-soft);
+    text-decoration: none;
+  }
+
   &.expanded {
     left: 0;
     .arrow-ctn {
-      border-color: transparent transparent transparent var(--vt-c-divider-dark-3);
+      background-color: var(--vt-c-green);
+      border-bottom: 1px solid var(--vt-c-green-darken);
     }
     .arrow {
       transform: rotate(-180deg);
@@ -86,10 +107,17 @@ aside {
     height: calc(100vh - $margin);
     min-height: calc(100vh - $margin);
     max-height: calc(100vh - $margin);
+    width: var(--sidebar-custom-width);
     overflow-y: auto;
-    padding: 0 1.5em 1.5em 1.5em;
+    // padding: 0 1.5em 1.5em 1.5em;
+    padding: 0;
     margin: $margin 0 0 0;
     background-color: var(--vt-c-black-soft);
+
+    li {
+      list-style: none;
+      border-bottom: 1px solid var(--vt-c-divider-dark-3);
+    }
 
     &::-webkit-scrollbar {
       -webkit-appearance: none;

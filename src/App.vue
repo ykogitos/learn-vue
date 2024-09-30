@@ -2,11 +2,13 @@
 // import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import NavView from '@/components/nav/NavView.vue'
+
 import SidebarMenu from '@/components/nav/SidebarMenu.vue'
+import { paths } from '@/router'
 </script>
 
 <template>
-  <SidebarMenu />
+  <SidebarMenu :links="paths"></SidebarMenu>
   <header>
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
