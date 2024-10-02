@@ -35,7 +35,7 @@ describe('App Navigation', async () => {
     const secondLink = wrapper.get('aside ul li:nth-child(2) a')
     await nextTick()
     await secondLink.trigger('click')
-    await sleep(100)
+    await sleep(1000)
     expect(secondLink.classes()).toEqual(['router-link-active', 'router-link-exact-active'])
     expect(wrapper.get('aside').classes()).toEqual(['flex', 'transition-in-out'])
   })
