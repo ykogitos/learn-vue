@@ -53,7 +53,7 @@ router.beforeEach((to) => {
   const defaultTitle = 'Default Title'
   const defaultDescription = 'Vue page'
   document.title = title || defaultTitle
-  console.log('description', description)
+
   const descriptionElement = document.querySelector('head meta[name="description"]')
   if (descriptionElement) {
     descriptionElement.setAttribute('content', description || defaultDescription)
