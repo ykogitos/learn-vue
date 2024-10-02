@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import router from '../../router'
 import App from '../../App.vue'
 import { nextTick } from 'vue'
+import { sleep } from '../helpers/tests'
 
 describe('App Navigation', async () => {
   router.push('/')
@@ -34,9 +35,6 @@ describe('App Navigation', async () => {
     const secondLink = wrapper.get('aside ul li:nth-child(2) a')
     await nextTick()
     await secondLink.trigger('click')
-    const sleep = (ms: number) => {
-      return new Promise((resolve) => setTimeout(resolve, ms))
-    }
     await sleep(100)
     expect(secondLink.classes()).toEqual(['router-link-active', 'router-link-exact-active'])
     expect(wrapper.get('aside').classes()).toEqual(['flex', 'transition-in-out'])
