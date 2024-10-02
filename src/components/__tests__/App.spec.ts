@@ -1,9 +1,9 @@
 import { test, expect, describe } from 'vitest'
 import { mount } from '@vue/test-utils'
-import router from '../../router'
-import App from '../../App.vue'
+import router from '@/router'
+import App from '@/App.vue'
 import { nextTick } from 'vue'
-import { sleep } from '../helpers/tests'
+import { sleep } from '@/helpers/tests'
 
 describe('App Navigation', async () => {
   router.push('/')
