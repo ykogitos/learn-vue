@@ -54,6 +54,7 @@ aside {
   color: var(--vt-c-white-soft);
   position: fixed;
   left: calc(var(--sidebar-custom-width) * -1);
+  top: 0;
   z-index: var(--z-index-top);
 
   .top-wrapper {
