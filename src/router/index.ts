@@ -13,6 +13,18 @@ const routes = [
     }
   },
   {
+    path: '/tic-tac-toe',
+    name: 'tic-tac-toe',
+    // route level code-splitting
+    // this generates a separate chunk (About.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "About" */ '../views/TictactoeView.vue'),
+    meta: {
+      title: 'Tic Tac Toe',
+      description: 'The Tic Tac Toe'
+    }
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting
@@ -22,18 +34,6 @@ const routes = [
     meta: {
       title: 'AboutPage',
       description: 'welcome to the About page'
-    }
-  },
-  {
-    path: '/foo',
-    name: 'foo',
-    // route level code-splitting
-    // this generates a separate chunk (About.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/AboutView.vue'),
-    meta: {
-      title: 'FooPage',
-      description: 'welcome to the Foo page'
     }
   }
 ]

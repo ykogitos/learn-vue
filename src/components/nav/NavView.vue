@@ -3,11 +3,9 @@ import { paths } from '@/router'
 </script>
 
 <template>
-  <nav>
-    <RouterLink v-for="(url, index) in paths" :key="'nav-' + index" :to="url.path">{{
-      url.name
-    }}</RouterLink>
-  </nav>
+  <RouterLink v-for="(url, index) in paths" :key="'nav-' + index" :to="url.path">{{
+    url.name
+  }}</RouterLink>
 </template>
 
 <style scoped>

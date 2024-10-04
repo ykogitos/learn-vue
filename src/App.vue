@@ -9,14 +9,6 @@ import { paths } from '@/router'
 
 <template>
   <SidebarMenu :links="paths"></SidebarMenu>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <NavView />
-    </div>
-  </header>
-
   <RouterView />
 </template>
 

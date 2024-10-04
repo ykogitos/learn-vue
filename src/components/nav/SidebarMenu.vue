@@ -22,7 +22,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <aside :class="['flex', 'transition-in-out', { expanded: toggle }]" ref="asideWidth">
+  <aside :class="['aside', 'flex', 'transition-in-out', { expanded: toggle }]" ref="asideWidth">
     <div class="top-wrapper transition-in-out flex flex-align-center flex-justify-between">
       <div class="flex flex-fill flex-align-center flex-justify-center">
         <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="30" height="30" />
@@ -38,19 +38,24 @@ onMounted(() => {
         </svg>
       </div>
     </div>
-
-    <ul>
-      <li v-for="(link, index) in links" :key="'link-' + index">
-        <RouterLink :to="link.path" @click="() => (toggle = !toggle)">{{ link.name }}</RouterLink>
-      </li>
-    </ul>
+    <nav>
+      <ul>
+        <li
+          v-for="(link, index) in links"
+          :key="'link-' + index"
+          :aria-current="$route.matched.some(({ path }) => path === link.path) ? 'page' : undefined"
+        >
+          <RouterLink :to="link.path" @click="() => (toggle = !toggle)">{{ link.name }}</RouterLink>
+        </li>
+      </ul>
+    </nav>
   </aside>
 </template>
 
 <style scoped lang="scss">
 $margin: 3rem;
 
-aside {
+.aside {
   color: var(--vt-c-white-soft);
   position: fixed;
   left: calc(var(--sidebar-custom-width) * -1);

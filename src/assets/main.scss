@@ -1,7 +1,5 @@
 @import './base.scss';
 
-$green: rgba(1, 145, 97, 0.966);
-
 #app {
   max-width: 1280px;
   margin: 0 auto;
@@ -12,7 +10,7 @@ $green: rgba(1, 145, 97, 0.966);
 a,
 .green {
   text-decoration: none;
-  color: $green;
+  color: var(--vt-c-green);
   transition: 0.4s;
   padding: 3px;
 }
@@ -25,6 +23,14 @@ a,
   display: flex;
 }
 
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
 .flex-align-center {
   align-items: center;
 }
@@ -35,6 +41,9 @@ a,
 
 .flex-justify-between {
   justify-content: space-between;
+}
+.v-margin-bottom--small {
+  margin-bottom: 1rem;
 }
 
 .flex-fill {
@@ -59,7 +68,7 @@ a,
 
   #app {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     padding: 0 2rem;
   }
 }
