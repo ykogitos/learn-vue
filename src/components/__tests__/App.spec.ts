@@ -16,13 +16,18 @@ describe('App Navigation', async () => {
   })
 
   test('On starting, sidebar is not expanded', () => {
-    expect(wrapper.get('aside').classes()).toEqual(['flex', 'transition-in-out'])
+    expect(wrapper.get('aside').classes()).toEqual(['aside', 'flex', 'transition-in-out'])
   })
 
   test('By clicking on the arrow sidebar is expanded', async () => {
     const btn = wrapper.get('.arrow-ctn')
     await btn.trigger('click')
-    expect(wrapper.get('aside').classes()).toEqual(['flex', 'transition-in-out', 'expanded'])
+    expect(wrapper.get('aside').classes()).toEqual([
+      'aside',
+      'flex',
+      'transition-in-out',
+      'expanded'
+    ])
   })
 
   test('The firstlink should be active', () => {
@@ -35,6 +40,6 @@ describe('App Navigation', async () => {
     await secondLink.trigger('click')
     await sleep()
     expect(secondLink.classes()).toEqual(['router-link-active', 'router-link-exact-active'])
-    expect(wrapper.get('aside').classes()).toEqual(['flex', 'transition-in-out'])
+    expect(wrapper.get('aside').classes()).toEqual(['aside', 'flex', 'transition-in-out'])
   })
 })

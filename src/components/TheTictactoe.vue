@@ -33,6 +33,7 @@ const winningSquaresIndexes = ref<number[][]>(getWinningSquareIndex(selectedType
 const player = ref('X')
 const winningSquaresRow = ref(-1)
 const winner = ref(false)
+const countFreeSquare = ref(selectedTypeGame.value)
 
 // set correct value CSS
 setTictactoeCssWidth(squareItems.value.length)
@@ -44,21 +45,30 @@ const handleNewGameSize = (value: number) => {
   winningSquaresIndexes.value = getWinningSquareIndex(value)
   player.value = 'X'
   winner.value = false
+  countFreeSquare.value = value
   setTictactoeCssWidth(value)
 }
 
 const handleSquareItem = (index: number) => {
   if (squareItems.value[index] === '' && !winner.value) {
     squareItems.value[index] = player.value
+    const winnerStatus = computeWinningMove(
+      player.value,
+      squareItems.value,
+      winningSquaresIndexes.value
+    )
+    winner.value = winnerStatus.win
+    setWinningSquaresRow(winnerStatus.row)
+    if (!winnerStatus.win) setPlayer()
   }
-  const winnerStatus = computeWinningMove(
-    player.value,
-    squareItems.value,
-    winningSquaresIndexes.value
-  )
-  winner.value = winnerStatus.win
-  setWinningSquaresRow(winnerStatus.row)
-  if (!winnerStatus.win) setPlayer()
+
+  countFreeSquare.value = squareItems.value.reduce((acc, x) => {
+    if (x === '') {
+      return acc + 1
+    } else {
+      return acc
+    }
+  }, 0)
 }
 
 const setWinningSquaresRow = (value: number) => {
@@ -94,11 +104,14 @@ const setPlayer = () => {
         </div>
       </div>
       <div :class="['board', 'v-margin-bottom--medium']">
-        The Board<br />
-        <p v-if="!winner">Player : {{ player }}</p>
-        <p v-else>
-          Winner is <span :class="{ winner }">{{ player }}</span>
-        </p>
+        The Board - Free squares: {{ countFreeSquare }} / {{ selectedTypeGame }}<br />
+        <p class="no-winner" v-if="countFreeSquare === 0 && !winner">🤔No winner</p>
+        <template v-else>
+          <p v-if="!winner">Player : {{ player }}</p>
+          <p v-else>
+            Winner is <span :class="{ winner }">{{ player }}</span>
+          </p>
+        </template>
       </div>
       <div class="game-ctn">
         <template v-for="(squareItem, index) in squareItems" :key="index">
@@ -167,6 +180,9 @@ span.winner {
   font-weight: bold;
   padding: 0.2rem;
   font-size: 1.3rem;
+}
+
+.no-winner {
 }
 
 .game-ctn {

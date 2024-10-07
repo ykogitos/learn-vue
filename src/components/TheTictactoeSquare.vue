@@ -18,10 +18,10 @@ defineProps<{
   transition: 0.875s ease-in-out;
   font-size: 1.7rem;
   &.X {
-    color: #017991;
+    color: var(--vt-c-green);
   }
   &.O {
-    color: #910131;
+    color: var(--vt-c-indigo);
   }
 }
 

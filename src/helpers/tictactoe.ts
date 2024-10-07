@@ -15,13 +15,13 @@ export const getWinningSquareIndex = (l: number): Array<Array<number>> => {
     }
     rows.push(row)
   }
-  //diagonal
+  //diagonal /
   let row = new Array(size).fill(0)
   for (let j = 0; j < size; j++) {
     row[j] = j + j * size
   }
   rows.push(row)
-
+  //diagonal \
   row = new Array(size).fill(0)
   for (let j = size; j > 0; j--) {
     row[j - 1] = (size - 1) * j
