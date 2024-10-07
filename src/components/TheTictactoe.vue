@@ -21,6 +21,10 @@ const gameTypes = ref([
   {
     label: '5 x 5',
     value: 25
+  },
+  {
+    label: '6 x 6',
+    value: 36
   }
 ])
 
@@ -92,13 +96,17 @@ const setPlayer = () => {
       <div :class="['board', 'v-margin-bottom--medium']">
         The Board<br />
         <p v-if="!winner">Player : {{ player }}</p>
-        <p v-else>Winner is {{ player }}</p>
+        <p v-else>
+          Winner is <span :class="{ winner }">{{ player }}</span>
+        </p>
       </div>
       <div class="game-ctn">
         <template v-for="(squareItem, index) in squareItems" :key="index">
           <TheTictactoeSquare
             :content="squareItem"
             :class="{
+              X: squareItem === 'X',
+              O: squareItem === 'O',
               win: highLightSquare(winningSquaresIndexes, winningSquaresRow, index) && winner
             }"
             @click="handleSquareItem(index)"
@@ -154,10 +162,18 @@ input[type='radio'] {
   left: -200vw;
 }
 
+span.winner {
+  color: var(--vt-c-green);
+  font-weight: bold;
+  padding: 0.2rem;
+  font-size: 1.3rem;
+}
+
 .game-ctn {
   width: var(--tic-tac-toe-width);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  color: var(--vt-c-divider-dark-2);
 }
 </style>

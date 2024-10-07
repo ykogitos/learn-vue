@@ -15,12 +15,22 @@ defineProps<{
   margin: 0.1rem 0.1rem 0.1rem;
   height: calc(10vh - 2 * 0.1rem);
   width: calc(10vh - 2 * 0.1rem);
-  transition: 1s ease-in-out;
+  transition: 0.875s ease-in-out;
+  font-size: 1.7rem;
+  &.X {
+    color: #017991;
+  }
+  &.O {
+    color: #910131;
+  }
 }
 
 .win {
   background-color: var(--vt-c-green);
   transform: rotate(360deg);
-  color: var(--vt-c-white);
+  &.X,
+  &.O {
+    color: var(--vt-c-white);
+  }
 }
 </style>
