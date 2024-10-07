@@ -35,8 +35,7 @@ export const setTictactoeCssWidth = (value: number): void => {
 }
 
 export const getBinaryArray = (player: string, squareItems: string[]): number[] => {
-  const currentPayer = player === 'X' ? 'O' : 'X'
-  return squareItems.map((squareItem) => (squareItem === currentPayer ? 1 : 0))
+  return squareItems.map((squareItem) => (squareItem === player ? 1 : 0))
 }
 
 export const createRows = (gameStatus: number[], winningSquaresIndexes: number[][]): number[][] => {
@@ -60,6 +59,25 @@ export const computeWinner = (size: number, rows: number[][]): { win: boolean; r
         row: i
       }
     }
+  }
+  return {
+    win: false,
+    row: -1
+  }
+}
+
+export const computeWinningMove = (
+  player: string,
+  squareItems: string[],
+  winningSquaresIndexes: number[][]
+): { win: boolean; row: number } => {
+  const gameStatus = getBinaryArray(player, squareItems)
+  if (winningSquaresIndexes && winningSquaresIndexes.length) {
+    const winnerStatus = computeWinner(
+      Math.sqrt(squareItems.length),
+      createRows(gameStatus, winningSquaresIndexes)
+    )
+    return winnerStatus
   }
   return {
     win: false,

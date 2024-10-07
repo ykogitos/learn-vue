@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import TheTictactoeSquare from './TheTictactoeSquare.vue'
 import {
   getWinningSquareIndex,
   setTictactoeCssWidth,
-  getBinaryArray,
-  computeWinner,
   highLightSquare,
-  createRows
+  computeWinningMove
 } from '@/helpers/tictactoe'
 
 const selectedTypeGame = ref(9)
@@ -30,6 +28,7 @@ const squareItems = ref<string[]>([...Array(selectedTypeGame.value).fill('')])
 const winningSquaresIndexes = ref<number[][]>(getWinningSquareIndex(selectedTypeGame.value))
 const player = ref('X')
 const winningSquaresRow = ref(-1)
+const winner = ref(false)
 
 // set correct value CSS
 setTictactoeCssWidth(squareItems.value.length)
@@ -39,43 +38,32 @@ const handleNewGameSize = (value: number) => {
   winningSquaresRow.value = -1
   squareItems.value = [...Array(value).fill('')]
   winningSquaresIndexes.value = getWinningSquareIndex(value)
+  player.value = 'X'
+  winner.value = false
   setTictactoeCssWidth(value)
 }
 
 const handleSquareItem = (index: number) => {
   if (squareItems.value[index] === '' && !winner.value) {
     squareItems.value[index] = player.value
-    player.value = player.value === 'X' ? 'O' : 'X'
   }
+  const winnerStatus = computeWinningMove(
+    player.value,
+    squareItems.value,
+    winningSquaresIndexes.value
+  )
+  winner.value = winnerStatus.win
+  setWinningSquaresRow(winnerStatus.row)
+  if (!winnerStatus.win) setPlayer()
 }
 
 const setWinningSquaresRow = (value: number) => {
   winningSquaresRow.value = value
 }
 
-const winner = computed((): boolean => {
-  let gameStatus = getBinaryArray(player.value, squareItems.value)
-
-  if (winningSquaresIndexes.value && winningSquaresIndexes.value.length) {
-    // const rows = []
-    // for (let i = 0, l = winningSquaresIndexes.value.length; i < l; i++) {
-    //   const row = []
-    //   for (let j = 0, ll = winningSquaresIndexes.value[i].length; j < ll; j++) {
-    //     row.push(gameStatus[winningSquaresIndexes.value[i][j]])
-    //   }
-    //   rows.push(row)
-    // }
-
-    const winnerStatus = computeWinner(
-      Math.sqrt(squareItems.value.length),
-      createRows(gameStatus, winningSquaresIndexes.value)
-    )
-
-    setWinningSquaresRow(winnerStatus.row)
-    return winnerStatus.win
-  }
-  return false
-})
+const setPlayer = () => {
+  player.value = player.value === 'X' ? 'O' : 'X'
+}
 </script>
 
 <template>
@@ -87,6 +75,9 @@ const winner = computed((): boolean => {
         Select the game :
         <div class="flex flex-row">
           <div v-for="gameType in gameTypes" :key="gameType.label" class="radio-game">
+            <label :for="gameType.label" :class="{ selected: selectedTypeGame === gameType.value }"
+              >{{ gameType.label }}
+            </label>
             <input
               type="radio"
               name="game-type"
@@ -95,11 +86,13 @@ const winner = computed((): boolean => {
               @click="handleNewGameSize(gameType.value)"
               v-model="selectedTypeGame"
             />
-            <label :for="gameType.label" :class="{ selected: selectedTypeGame === gameType.value }"
-              >{{ gameType.label }}
-            </label>
           </div>
         </div>
+      </div>
+      <div :class="['board', 'v-margin-bottom--medium']">
+        The Board<br />
+        <p v-if="!winner">Player : {{ player }}</p>
+        <p v-else>Winner is {{ player }}</p>
       </div>
       <div class="game-ctn">
         <template v-for="(squareItem, index) in squareItems" :key="index">
@@ -113,20 +106,16 @@ const winner = computed((): boolean => {
         </template>
       </div>
     </div>
-
-    <div :class="['board']">
-      The Board
-      <p v-if="!winner">Player : {{ player }}</p>
-      <p v-else>Winner is {{ player === 'X' ? 'O' : 'X' }}</p>
-    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .radio-game {
   margin-right: 0.5rem;
-  padding-right: 0.5rem;
-  border-right: 1px solid var(--vt-c-black-mute);
+  padding-right: 0.8rem;
+  border-right: 1px solid var(--vt-c-divider-dark-3);
+  color: var(--vt-c-divider-dark-1);
+
   &:last-child {
     border-right: none;
     margin-right: 0;
@@ -135,11 +124,34 @@ const winner = computed((): boolean => {
 }
 
 label {
+  cursor: pointer;
   font-weight: bold;
   padding-left: 0.4rem;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.2rem;
+    margin-bottom: 0.2rem;
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--vt-c-text-dark-2);
+    border-radius: 0.2rem;
+  }
   &.selected {
     color: var(--vt-c-green);
+    &:before {
+      content: '';
+      color: var(--vt-c-white);
+      background-color: var(--vt-c-green);
+    }
   }
+}
+
+input[type='radio'] {
+  position: absolute;
+  left: -200vw;
 }
 
 .game-ctn {

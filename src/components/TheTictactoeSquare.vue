@@ -10,11 +10,11 @@ defineProps<{
 
 <style lang="scss" scoped>
 .square {
-  border: 1px solid var(--vt-c-black);
-  margin-top: -1px;
-  margin-right: -1px;
-  height: 10vh;
-  width: 10vh;
+  border: none;
+  border-radius: 0.2rem;
+  margin: 0.1rem 0.1rem 0.1rem;
+  height: calc(10vh - 2 * 0.1rem);
+  width: calc(10vh - 2 * 0.1rem);
   transition: 1s ease-in-out;
 }
 
