@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { LinkInterface } from '@/interfaces'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
 
 const routes = [
   {
@@ -18,10 +18,19 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (About.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "About" */ '../views/TictactoeView.vue'),
+    component: () => import(/* webpackChunkName: "About" */ '@/views/TictactoeView.vue'),
     meta: {
       title: 'Tic Tac Toe',
       description: 'The Tic Tac Toe'
+    }
+  },
+  {
+    path: '/the-form',
+    name: 'the-form',
+    component: () => import('@/views/FormView.vue'),
+    meta: {
+      title: 'The form',
+      description: 'Playing with form'
     }
   },
   {
