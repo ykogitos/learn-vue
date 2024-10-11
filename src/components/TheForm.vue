@@ -1,16 +1,51 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import InputRadio from '@/components/InputRadio.vue'
+import InputCb from '@/components/InputCb.vue'
+
+const inputRadioValues: { id: string; label: string; value: string }[] = [
+  {
+    id: 'civility-mme',
+    label: 'Mme',
+    value: 'mme'
+  },
+  {
+    id: 'civility-m',
+    label: 'M.',
+    value: 'm'
+  }
+]
+
+const civility = ref()
+const cbNumber = ref()
+</script>
 <template>
   <main>
     <h1>The Form</h1>
     <form class="form">
       <fieldset>
         <div id="civility">
-          <label for="civility-mme">Mme</label>
-          <input type="radio" id="civility-mme" name="civility" value="Mme" />
-
-          <label for="civility-m">M.</label>
-          <input type="radio" id="civility-m" name="civility" value="M." />
+          <p>parent: {{ civility }}</p>
+          <input-radio
+            :inputRadioValues="inputRadioValues"
+            name="civility"
+            @update:value="
+              ($event) => {
+                civility = $event.target.value
+              }
+            "
+          />
         </div>
+      </fieldset>
+      <fieldset>
+        <p>parent: {{ cbNumber }}</p>
+        <input-cb
+          @update:value="
+            (value) => {
+              cbNumber = value.replace(/ /g, '')
+            }
+          "
+        />
       </fieldset>
       <fieldset>
         <div>
