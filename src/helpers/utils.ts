@@ -49,7 +49,8 @@ export const cbIsValid = (n: string): boolean => {
   return checkSum % 10 === 0
 }
 
-export const cbBankIdentifier = (n: string): { name: string; l: number; l2: number } => {
+import type { BankDataInterface } from '@/interfaces'
+export const cbBankIdentifier = (n: string): BankDataInterface => {
   const banks = [
     {
       name: 'Diners Club Carte Blanche',
@@ -127,7 +128,7 @@ export const cbBankIdentifier = (n: string): { name: string; l: number; l2: numb
 
   let bank = {
     name: '',
-    l: 0,
+    l: 16,
     l2: 0
   }
 
@@ -135,6 +136,7 @@ export const cbBankIdentifier = (n: string): { name: string; l: number; l2: numb
     const regex = new RegExp(banks[i].reg, 'g')
     if (regex.test(n)) {
       bank = { ...banks[i] }
+      break
     }
   }
   return {
