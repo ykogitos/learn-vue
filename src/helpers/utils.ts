@@ -1,4 +1,4 @@
-export const cbPattern = (str: string, pattern: string) => {
+export const cbPattern = (str: string, pattern: string, nbChar: number) => {
   if (str === '') return ''
   str = str.replace(/ /g, '').replace(/\D/g, '')
   const regex = new RegExp(pattern, 'gm')
@@ -20,7 +20,7 @@ export const cbPattern = (str: string, pattern: string) => {
     break
   }
 
-  return out.trim()
+  return out.trim().substring(0, nbChar)
 }
 
 export const luhnCheck = (str: string, l: number): boolean => {

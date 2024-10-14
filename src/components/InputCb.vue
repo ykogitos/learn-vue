@@ -15,15 +15,19 @@ const emit = defineEmits(['update:value'])
 const cbNumber = ref('')
 const isValid = ref(false)
 const bankData = ref<BankDataInterface>({
-  name: '',
+  name: 'default',
   pattern: '',
   spaces: 0,
-  l: 20
+  l: 5
 })
 const inputLenght = computed(() => bankData.value.l + bankData.value.spaces)
 
 const manageData = (cbValue: string) => {
-  cbNumber.value = cbPattern(cbValue, bankData.value.pattern)
+  cbNumber.value = cbPattern(
+    cbValue,
+    bankData.value.pattern,
+    bankData.value.l + bankData.value.spaces
+  )
   bankData.value = cbBankIdentifier(cbValue)
   isValid.value = luhnCheck(cbNumber.value, bankData.value.l)
   emit('update:value', cbNumber.value)
@@ -46,6 +50,7 @@ const clearInput = () => {
   <div class="flex">
     <label>CB</label>
     <input type="text" :maxlength="inputLenght" v-model="cbNumber" @:keyup.prevent="handleKeyUp" />
+    {{ inputLenght }}
     <IconCheck class="svg" :class="{ checked: isValid }" v-if="isValid" />
     <IconFail class="svg" :class="{ failed: !isValid }" v-if="!isValid" />
   </div>
