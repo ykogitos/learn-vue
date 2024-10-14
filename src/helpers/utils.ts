@@ -1,147 +1,130 @@
-export const cbSplit = (str: string): string => {
-  const regex = /\d{4}/gm
-
+export const cbPattern = (str: string, pattern: string) => {
+  if (str === '') return ''
+  str = str.replace(/ /g, '').replace(/\D/g, '')
+  const regex = new RegExp(pattern, 'gm')
   let m
   let out = ''
   let l = 0
-  str = str.replace(/ /g, '')
   while ((m = regex.exec(str)) !== null) {
-    // This is necessary to avoid infinite loops with zero-width matches
-    if (m.index === regex.lastIndex) {
-      regex.lastIndex++
+    for (let i = 1; i < m.length; i++) {
+      if (m[i]) {
+        out += m[i] + ' '
+        l += m[i].length
+        if (!m[i + 1]) break
+      }
     }
-
-    // The result can be accessed through the `m`-variable.
-    m.forEach((match) => {
-      out += match + ' '
-      l += 4
-    })
+    const sbstr = str.substring(l)
+    if (sbstr.length) {
+      out += sbstr
+    }
+    break
   }
-  const sbstr = str.substring(l)
 
-  if (sbstr.length) {
-    out += sbstr
-  }
   return out.trim()
 }
 
-export const cbIsValid = (n: string): boolean => {
-  const array: number[] = []
-  let checkSum: number = -1
-  for (let i = 0, l = n.length; i < l; i++) {
-    let value = parseInt(n[i])
-    if (Number.isNaN(value)) {
-      console.warn('Cb card must be a number')
-      return false
-    }
-    if (i % 2) {
-      array.push(value)
-    } else {
-      value = value * 2
-      if (value > 9) {
-        value = Math.floor(value / 10) + (value % 10)
-      }
-      array.push(value)
-    }
+export const luhnCheck = (str: string, l: number): boolean => {
+  if (!str) {
+    return false
   }
 
-  checkSum = array.reduce((acc, x) => x + acc, 0)
-  return checkSum % 10 === 0
+  str = str.replace(/ /g, '')
+  const digits = str.split('').map(Number)
+  if (digits.length !== l) return false
+  let sum = 0
+  let isSecond = false
+  for (let i = digits.length - 1; i >= 0; i--) {
+    let digit = digits[i]
+    if (isSecond) {
+      digit *= 2
+      if (digit > 9) {
+        digit -= 9
+      }
+    }
+    sum += digit
+    isSecond = !isSecond
+  }
+  return sum % 10 === 0
 }
 
 import type { BankDataInterface } from '@/interfaces'
-export const cbBankIdentifier = (n: string): BankDataInterface => {
+export const cbBankIdentifier = (cbNumber: string): BankDataInterface => {
+  // https://baymard.com/checkout-usability/credit-card-patterns
   const banks = [
     {
-      name: 'Diners Club Carte Blanche',
-      reg: '^30[0-5]',
-      l: 14,
-      l2: 0
+      name: 'Visa Electron', // 4917484589897107
+      reg: '^4026|^417500|^4405|^4508|^4844|^4913|^4917',
+      pattern: '(.{4})?(.{4})?(.{4})?(.{4})?',
+      spaces: 3,
+      l: 16
     },
     {
-      name: 'American Express',
-      reg: '^34|^37',
-      l: 15,
-      l2: 0
-    },
-    {
-      name: 'JCB',
-      reg: '^35(?:(?:2[8-9])|[3-8]d)',
-      l: 16,
-      l2: 0
-    },
-    {
-      name: 'Diners Club International',
-      reg: '^3(?:0|6|8)',
-      l: 14,
-      l2: 0
-    },
-    {
-      name: 'Visa Electron',
-      reg: '^4026|^417500|^4508|^4844|^4913|^4917',
-      l: 16,
-      l2: 0
-    },
-    {
-      name: 'Visa',
+      name: 'Visa', // 4263982640269299
       reg: '^4',
-      l: 13,
-      l2: 16
+      pattern: '(.{4})?(.{4})?(.{4})?(.{4})?',
+      spaces: 3,
+      l: 16
     },
     {
-      name: 'Diners Club US|CA',
-      reg: '^55',
-      l: 16,
-      l2: 0
+      name: 'American Express', // 374245455400126
+      reg: '^34|^37',
+      pattern: '(.{4})?(.{6})?(.{5})?',
+      spaces: 2,
+      l: 15
     },
     {
-      name: 'Maestro',
-      reg: '^5018|^5020|^5038|^5893|^6304|^6759|^6761|^6762|^6763',
-      l: 12,
-      l2: 19
+      name: 'Mastercard', // 5425233430109903
+      reg: '^5[1-5]|^222(?:[1-9]dd)|^2(?:[2-8]\\d\\d\\d\\d)|^2720\\d\\d',
+      pattern: '(.{4})?(.{4})?(.{4})?(.{4})?',
+      spaces: 3,
+      l: 16
     },
+    // MISSING MAESTRO
     {
-      name: 'Mastercard',
-      reg: '^5[1-5]',
-      l: 16,
-      l2: 0
+      name: 'Diners Club Carte Blanche | International', // 30569309025904
+      reg: '^30[0-5]|^309|^36|^38|^39',
+      pattern: '(.{4})?(.{6})?(.{4})?',
+      spaces: 2,
+      l: 14
     },
+    // 38520000023237
+    // MISSING DINERS US / CA
     {
-      name: 'Discover Card',
-      reg: '^6011|^622(?:(?:12(?:[6-9]))|(?:1[3-8]d)|(?:[2-8])dd|(?:91[0-9])|(?:92[0-5]))|^64[4-9]|^65',
-      l: 16,
-      l2: 0
+      name: 'Discover Card', // 6011111111111117
+      reg: '^6011|^622(?:(?:12(?:[6-9]))|(?:1[3-8]\\d)|(?:[2-8])\\d\\d|(?:91[0-9])|(?:92[0-5]))|^64[4-9]|^65',
+      pattern: '(.{4})?(.{4})?(.{4})?(.{4})?',
+      spaces: 3,
+      l: 16
     },
+    // MISSING DISCOVER 15 pins
     {
-      name: 'InstaPayment',
-      reg: '^63[7-9]',
-      l: 16,
-      l2: 0
-    },
-    {
-      name: 'Laser',
-      reg: '^6304|^6706|^6771|^6709',
-      l: 16,
-      l2: 19
+      name: 'JCB', // 3530111333300000
+      reg: '^35(?:(?:2(?:[8-9]))|(?:[3-8]\\d))',
+      pattern: '(.{4})?(.{4})?(.{4})?(.{4})?',
+      spaces: 3,
+      l: 16
     }
   ]
 
   let bank = {
     name: '',
-    l: 16,
-    l2: 0
+    reg: '',
+    pattern: '',
+    spaces: 0,
+    l: 16
   }
 
   for (let i = 0, l = banks.length; i < l; i++) {
     const regex = new RegExp(banks[i].reg, 'g')
-    if (regex.test(n)) {
+    if (regex.test(cbNumber)) {
       bank = { ...banks[i] }
       break
     }
   }
   return {
     name: bank.name,
-    l: bank.l,
-    l2: bank.l2
+    pattern: bank.pattern,
+    spaces: bank.spaces,
+    l: bank.l
   }
 }
