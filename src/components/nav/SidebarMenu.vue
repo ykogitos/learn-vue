@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, useTemplateRef } from 'vue'
 import type { LinkInterface } from '@/interfaces'
+import IconArrow from '../icons/IconArrow.vue'
 
 defineProps<{
   links: Array<LinkInterface>
@@ -33,9 +34,7 @@ onMounted(() => {
         @click="() => (toggle = !toggle)"
         class="arrow-ctn flex flex-align-center flex-justify-center transition-in-out"
       >
-        <svg class="arrow transition-in-out">
-          <use xlink:href="@/assets/keyboard_double_arrow_right.svg#arrow" />
-        </svg>
+        <IconArrow class="arrow transition-in-out" />
       </div>
     </div>
     <nav>
