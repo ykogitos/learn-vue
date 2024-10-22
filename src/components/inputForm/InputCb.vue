@@ -48,8 +48,14 @@ const clearInput = () => {
 <template>
   <p>Child: {{ cbNumber }}</p>
   <div class="flex">
-    <label>CB</label>
-    <input type="text" :maxlength="inputLenght" v-model="cbNumber" @:keyup.prevent="handleKeyUp" />
+    <label for="cb-number">CB</label>
+    <input
+      id="cb-number"
+      type="text"
+      :maxlength="inputLenght"
+      v-model="cbNumber"
+      @:keyup.prevent="handleKeyUp"
+    />
     {{ inputLenght }}
     <IconCheck class="svg" :class="{ checked: isValid }" v-if="isValid" />
     <IconFail class="svg" :class="{ failed: !isValid }" v-if="!isValid" />

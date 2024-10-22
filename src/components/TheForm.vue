@@ -1,23 +1,35 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import InputRadio from '@/components/InputRadio.vue'
-import InputCb from '@/components/InputCb.vue'
+import InputRadio from '@/components/inputForm/InputRadio.vue'
+import InputCb from '@/components/inputForm/InputCb.vue'
 
-const inputRadioValues: { id: string; label: string; value: string }[] = [
+const inputRadioValues: { id: string; label: string; value: string; selected: boolean }[] = [
   {
-    id: 'civility-mme',
-    label: 'Mme',
-    value: 'mme'
+    id: 'radio-1',
+    label: '1',
+    value: '1',
+    selected: false
   },
   {
-    id: 'civility-m',
-    label: 'M.',
-    value: 'm'
+    id: 'radio-2',
+    label: '2',
+    value: '2',
+    selected: false
+  },
+  {
+    id: 'radio-3',
+    label: '3',
+    value: '3',
+    selected: false
   }
 ]
 
-const civility = ref()
-const cbNumber = ref()
+const required = ref(true)
+
+const formData = ref({
+  civility: '',
+  cbNumber: ''
+})
 </script>
 <template>
   <main>
@@ -25,29 +37,29 @@ const cbNumber = ref()
     <form class="form">
       <fieldset>
         <div id="civility">
-          <p>parent: {{ civility }}</p>
           <input-radio
             :inputRadioValues="inputRadioValues"
             name="civility"
+            legend="Radio form"
+            :required="required"
             @update:value="
               ($event) => {
-                civility = $event.target.value
+                formData.civility = $event.target.value
               }
             "
           />
         </div>
       </fieldset>
       <fieldset>
-        <p>parent: {{ cbNumber }}</p>
         <input-cb
           @update:value="
             (value) => {
-              cbNumber = value.replace(/ /g, '')
+              formData.cbNumber = value.replace(/ /g, '')
             }
           "
         />
       </fieldset>
-      <fieldset>
+      <!-- <fieldset>
         <div>
           <label for="firstname">Firstname</label>
           <input
@@ -98,7 +110,10 @@ const cbNumber = ref()
             autocomplete="postal-code"
           />
         </div>
-      </fieldset>
+      </fieldset> -->
     </form>
+    <div>
+      <p>{{ formData }}</p>
+    </div>
   </main>
 </template>

@@ -1,0 +1,28 @@
+legend {
+  padding: 0;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+fieldset {
+  border: 0;
+  margin: 0 0 0.3rem 0;
+  padding: 0 0 0.3rem 0;
+
+  &.required {
+    legend {
+      &:after {
+        content: '*';
+        color: var(--vt-c-red);
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+.input-radio {
+  padding-right: 0.8rem;
+  label {
+    padding-right: 0.3rem;
+  }
+}

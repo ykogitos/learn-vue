@@ -3,7 +3,5 @@ import TheForm from '@/components/TheForm.vue'
 </script>
 
 <template>
-  <main>
-    <TheForm />
-  </main>
+  <TheForm />
 </template>
