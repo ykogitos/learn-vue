@@ -182,9 +182,6 @@ span.winner {
   font-size: 1.3rem;
 }
 
-.no-winner {
-}
-
 .game-ctn {
   width: var(--tic-tac-toe-width);
   display: flex;

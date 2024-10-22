@@ -3,9 +3,10 @@ import { defineConfig } from 'cypress'
 export default defineConfig({
   component: {
     devServer: {
-      framework: 'vue-cli',
+      framework: 'vue',
       bundler: 'webpack'
-    }
+    },
+    specPattern: 'cypress/e2e/**/*.{cy,spec}.{js,jsx,ts,tsx}'
   },
   video: true,
   e2e: {
