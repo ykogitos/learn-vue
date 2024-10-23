@@ -5,6 +5,7 @@ export interface LinkInterface {
 
 export interface BankDataInterface {
   name: string
+  logo: string
   pattern: string
   spaces: number
   l: number

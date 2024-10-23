@@ -16,6 +16,7 @@ const cbNumber = ref('')
 const isValid = ref(false)
 const bankData = ref<BankDataInterface>({
   name: 'default',
+  logo: '',
   pattern: '',
   spaces: 0,
   l: 5
@@ -48,21 +49,25 @@ const clearInput = () => {
 <template>
   <p>Child: {{ cbNumber }}</p>
   <div class="flex">
-    <label for="cb-number">CB</label>
-    <input
-      id="cb-number"
-      type="text"
-      :maxlength="inputLenght"
-      v-model="cbNumber"
-      @:keyup.prevent="handleKeyUp"
-    />
+    <label for="cb-number">Credit card:</label>
+    <div class="wrapper-cb-number">
+      <div class="logo-cb" :class="bankData.logo"></div>
+      <input
+        id="cb-number"
+        type="text"
+        :maxlength="inputLenght"
+        v-model="cbNumber"
+        @:keyup.prevent="handleKeyUp"
+      />
+    </div>
+
     {{ inputLenght }}
     <IconCheck class="svg" :class="{ checked: isValid }" v-if="isValid" />
     <IconFail class="svg" :class="{ failed: !isValid }" v-if="!isValid" />
   </div>
 
   <button @click.prevent="clearInput">Clear</button>
-  <p>b {{ bankData }}</p>
+  <p>{{ bankData }}</p>
   <p>input: {{ cbNumber.length }}, Bank: {{ bankData.name }}, digit: {{ inputLenght }}</p>
 </template>
 
@@ -75,6 +80,62 @@ const clearInput = () => {
   }
   &.failed {
     fill: var(--vt-c-red);
+  }
+}
+
+.wrapper-cb-number {
+  position: relative;
+}
+
+input {
+  height: 40px;
+  padding-left: 54px;
+  background-color: #f9f9f9;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  &:focus {
+    outline: 2px solid #707070;
+  }
+}
+
+.logo-cb {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  display: inline-block;
+  width: 52px;
+  height: 34px;
+  background-image: url('/images/logo_cb.png');
+  background-position: 0 -228px;
+  background-color: transparent;
+  background-size: cover;
+
+  &.jcb {
+    background-position-y: 0;
+  }
+
+  &.discover {
+    background-position-y: -32px;
+  }
+
+  &.diner {
+    background-position-y: -66px;
+  }
+
+  &.mastercard {
+    background-position-y: -98px;
+  }
+
+  &.american-express {
+    background-position-y: -130px;
+  }
+
+  &.visa {
+    background-position-y: -162px;
+  }
+
+  &.visa-electron {
+    background-position-y: -196px;
   }
 }
 </style>

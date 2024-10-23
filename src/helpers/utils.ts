@@ -53,6 +53,7 @@ export const cbBankIdentifier = (cbNumber: string): BankDataInterface => {
   const banks = [
     {
       name: 'Visa Electron', // 4917484589897107
+      logo: 'visa-electron',
       reg: '^4026|^417500|^4405|^4508|^4844|^4913|^4917',
       pattern: '(.{4})?(.{4})?(.{4})?(.{4})?',
       spaces: 3,
@@ -60,6 +61,7 @@ export const cbBankIdentifier = (cbNumber: string): BankDataInterface => {
     },
     {
       name: 'Visa', // 4263982640269299
+      logo: 'visa',
       reg: '^4',
       pattern: '(.{4})?(.{4})?(.{4})?(.{4})?',
       spaces: 3,
@@ -67,6 +69,7 @@ export const cbBankIdentifier = (cbNumber: string): BankDataInterface => {
     },
     {
       name: 'American Express', // 374245455400126
+      logo: 'american-express',
       reg: '^34|^37',
       pattern: '(.{4})?(.{6})?(.{5})?',
       spaces: 2,
@@ -74,6 +77,7 @@ export const cbBankIdentifier = (cbNumber: string): BankDataInterface => {
     },
     {
       name: 'Mastercard', // 5425233430109903
+      logo: 'mastercard',
       reg: '^5[1-5]|^222(?:[1-9]dd)|^2(?:[2-8]\\d\\d\\d\\d)|^2720\\d\\d',
       pattern: '(.{4})?(.{4})?(.{4})?(.{4})?',
       spaces: 3,
@@ -82,6 +86,7 @@ export const cbBankIdentifier = (cbNumber: string): BankDataInterface => {
     // MISSING MAESTRO
     {
       name: 'Diners Club Carte Blanche | International', // 30569309025904
+      logo: 'diner',
       reg: '^30[0-5]|^309|^36|^38|^39',
       pattern: '(.{4})?(.{6})?(.{4})?',
       spaces: 2,
@@ -91,6 +96,7 @@ export const cbBankIdentifier = (cbNumber: string): BankDataInterface => {
     // MISSING DINERS US / CA
     {
       name: 'Discover Card', // 6011111111111117
+      logo: 'discover',
       reg: '^6011|^622(?:(?:12(?:[6-9]))|(?:1[3-8]\\d)|(?:[2-8])\\d\\d|(?:91[0-9])|(?:92[0-5]))|^64[4-9]|^65',
       pattern: '(.{4})?(.{4})?(.{4})?(.{4})?',
       spaces: 3,
@@ -99,6 +105,7 @@ export const cbBankIdentifier = (cbNumber: string): BankDataInterface => {
     // MISSING DISCOVER 15 pins
     {
       name: 'JCB', // 3530111333300000
+      logo: 'jcb',
       reg: '^35(?:(?:2(?:[8-9]))|(?:[3-8]\\d))',
       pattern: '(.{4})?(.{4})?(.{4})?(.{4})?',
       spaces: 3,
@@ -108,6 +115,7 @@ export const cbBankIdentifier = (cbNumber: string): BankDataInterface => {
 
   let bank = {
     name: '',
+    logo: '',
     reg: '',
     pattern: '',
     spaces: 0,
@@ -123,6 +131,7 @@ export const cbBankIdentifier = (cbNumber: string): BankDataInterface => {
   }
   return {
     name: bank.name,
+    logo: bank.logo,
     pattern: bank.pattern,
     spaces: bank.spaces,
     l: bank.l

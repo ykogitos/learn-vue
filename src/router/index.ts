@@ -8,7 +8,7 @@ const routes = [
     name: 'home',
     component: HomeView,
     meta: {
-      title: 'HomePage',
+      title: 'HomePage | Kgt app',
       description: 'welcome to the home page'
     }
   },
@@ -20,7 +20,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "About" */ '@/views/TictactoeView.vue'),
     meta: {
-      title: 'Tic Tac Toe',
+      title: 'Tic Tac Toe | Kgt app',
       description: 'The Tic Tac Toe'
     }
   },
@@ -29,7 +29,7 @@ const routes = [
     name: 'the-form',
     component: () => import('@/views/FormView.vue'),
     meta: {
-      title: 'The form',
+      title: 'The form | Kgt app',
       description: 'Playing with form'
     }
   },
@@ -41,7 +41,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "About" */ '../views/AboutView.vue'),
     meta: {
-      title: 'AboutPage',
+      title: 'AboutPage | Kgt app',
       description: 'welcome to the About page'
     }
   }
