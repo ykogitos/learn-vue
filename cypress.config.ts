@@ -6,7 +6,8 @@ export default defineConfig({
       framework: 'vue',
       bundler: 'webpack'
     },
-    specPattern: 'cypress/e2e/**/*.{cy,spec}.{js,jsx,ts,tsx}'
+    specPattern: 'src/**/*.cy.{js,jsx,ts,tsx}',
+    supportFile: 'cypress/support/component.ts'
   },
   video: true,
   e2e: {
