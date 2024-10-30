@@ -31,11 +31,11 @@ export const getWinningSquareIndex = (l: number): Array<Array<number>> => {
 }
 
 export const setTictactoeCssWidth = (value: number): void => {
-  document.documentElement.style.setProperty('--tic-tac-toe-width', Math.sqrt(value) * 10 + 'vw')
+  document.documentElement.style.setProperty('--tic-tac-toe-size', Math.sqrt(value) + '')
 }
 
 export const getBinaryArray = (player: string, squareItems: string[]): number[] => {
-  return squareItems.map((squareItem) => (squareItem === player ? 1 : 0))
+  return squareItems.map((squareItem) => (squareItem === player ? 1 : squareItem === '' ? 0 : -10))
 }
 
 export const createRows = (gameStatus: number[], winningSquaresIndexes: number[][]): number[][] => {
@@ -51,26 +51,48 @@ export const createRows = (gameStatus: number[], winningSquaresIndexes: number[]
   return rows
 }
 
-export const computeWinner = (size: number, rows: number[][]): { win: boolean; row: number } => {
+const computePlayable = (rows:number[][]) => {
   for (let i = 0, l = rows.length; i < l; i++) {
-    if (rows[i].reduce((acc, x) => acc + x, 0) === size) {
-      return {
-        win: true,
-        row: i
-      }
+    if (rows[i].reduce((acc, x) => acc + x, 0) >= 0) {
+      return true
     }
   }
-  return {
-    win: false,
-    row: -1
+
+  return false
+}
+
+export const computeWinner = (size: number, rows: number[][]): { win: boolean; row: number, playable: boolean } => {
+  const out = {
+    win: false, 
+    row: -1,
+    playable: false
   }
+  // check is there is a winner
+  for (let i = 0, l = rows.length; i < l; i++) {
+    if (rows[i].reduce((acc, x) => acc + x, 0) === size) {
+      out.win = true;
+      out.row = i;
+      out.playable = false;
+      break;
+    }
+  }
+
+  //next player
+  const nextPlayer = rows.map((array) => {
+    return array.map((value) => {
+      return value === -10 ? 1 : value === 1 ? -10 : 0
+    })
+  })
+
+  out.playable = computePlayable(rows) || computePlayable(nextPlayer)
+  return out
 }
 
 export const computeWinningMove = (
   player: string,
   squareItems: string[],
   winningSquaresIndexes: number[][]
-): { win: boolean; row: number } => {
+): { win: boolean; row: number; playable: boolean } => {
   const gameStatus = getBinaryArray(player, squareItems)
   if (winningSquaresIndexes && winningSquaresIndexes.length) {
     const winnerStatus = computeWinner(
@@ -81,7 +103,8 @@ export const computeWinningMove = (
   }
   return {
     win: false,
-    row: -1
+    row: -1,
+    playable: true
   }
 }
 

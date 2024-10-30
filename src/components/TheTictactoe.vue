@@ -7,6 +7,8 @@ import {
   highLightSquare,
   computeWinningMove
 } from '@/helpers/tictactoe'
+import IconClose from './icons/IconClose.vue';
+import IconCircle from './icons/IconCircle.vue';
 
 const selectedTypeGame = ref(9)
 const gameTypes = ref([
@@ -33,6 +35,7 @@ const winningSquaresIndexes = ref<number[][]>(getWinningSquareIndex(selectedType
 const player = ref('X')
 const winningSquaresRow = ref(-1)
 const winner = ref(false)
+const playable = ref(true)
 const countFreeSquare = ref(selectedTypeGame.value)
 
 // set correct value CSS
@@ -45,19 +48,23 @@ const handleNewGameSize = (value: number) => {
   winningSquaresIndexes.value = getWinningSquareIndex(value)
   player.value = 'X'
   winner.value = false
+  playable.value = true
   countFreeSquare.value = value
   setTictactoeCssWidth(value)
 }
 
 const handleSquareItem = (index: number) => {
-  if (squareItems.value[index] === '' && !winner.value) {
+
+  if ((squareItems.value[index] === '' && !winner.value) && playable.value) {
     squareItems.value[index] = player.value
     const winnerStatus = computeWinningMove(
       player.value,
       squareItems.value,
       winningSquaresIndexes.value
     )
+
     winner.value = winnerStatus.win
+    playable.value = winnerStatus.playable
     setWinningSquaresRow(winnerStatus.row)
     if (!winnerStatus.win) setPlayer()
   }
@@ -78,6 +85,7 @@ const setWinningSquaresRow = (value: number) => {
 const setPlayer = () => {
   player.value = player.value === 'X' ? 'O' : 'X'
 }
+
 </script>
 
 <template>
@@ -103,17 +111,7 @@ const setPlayer = () => {
           </div>
         </div>
       </div>
-      <div :class="['board', 'v-margin-bottom--medium']">
-        The Board - Free squares: {{ countFreeSquare }} / {{ selectedTypeGame }}<br />
-        <p class="no-winner" v-if="countFreeSquare === 0 && !winner">🤔No winner</p>
-        <template v-else>
-          <p v-if="!winner">Player : {{ player }}</p>
-          <p v-else>
-            Winner is <span :class="{ winner }">{{ player }}</span>
-          </p>
-        </template>
-      </div>
-      <div class="game-ctn">
+      <div class="game-ctn" :class="{'no-pointer': !playable}">
         <template v-for="(squareItem, index) in squareItems" :key="index">
           <TheTictactoeSquare
             :content="squareItem"
@@ -126,11 +124,30 @@ const setPlayer = () => {
           />
         </template>
       </div>
+      <div :class="['board', 'v-margin-bottom--medium']">
+        The Board - Free squares: {{ countFreeSquare }} / {{ selectedTypeGame }}<br />
+
+        <p class="no-winner" v-if="countFreeSquare === 0 && !winner || !playable">🤔No winner</p>
+        <template v-else>
+          <p v-if="!winner" class="player flex flex-justify-center flex-align-center">Player : 
+            <template v-if="player === 'X'"><IconClose /></template>
+            <template v-else><IconCircle /></template>
+          </p>
+          <p v-else>
+            Winner is <span :class="{ winner }">{{ player }}</span>
+          </p>
+        </template>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+h1 {
+  text-align: center;
+  border-bottom: solid black 0.1rem;
+  margin-top: -0.1rem;
+}
 .radio-game {
   margin-right: 0.5rem;
   padding-right: 0.8rem;
@@ -183,10 +200,18 @@ span.winner {
 }
 
 .game-ctn {
-  width: var(--tic-tac-toe-width);
+  width: 100%;
+  max-width: 250px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   color: var(--vt-c-divider-dark-2);
+}
+
+.player {
+  & svg {
+    width: 1.8rem;
+    fill: var(--vt-c-green)
+  }
 }
 </style>
