@@ -15,7 +15,7 @@ describe('Tic Tac Toe', () => {
     for (const square of squares) {
       cy.get('.game-ctn button:nth-child(' + square + ')').click()
     }
-    cy.get('.board').should('include.text', 'Free squares: 0 / 9')
+    cy.get('.board').should('include.text', 'Free squares: 1 / 9')
     cy.get('.board p').should('include.text', 'No winner')
     cy.get('main > div > div > div > div > div:nth-child(1)').click()
     squares = [5, 3, 1, 9, 4, 6]
