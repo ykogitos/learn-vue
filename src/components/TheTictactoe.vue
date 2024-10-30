@@ -111,6 +111,7 @@ const setPlayer = () => {
           </div>
         </div>
       </div>
+
       <div class="game-ctn" :class="{'no-pointer': !playable}">
         <template v-for="(squareItem, index) in squareItems" :key="index">
           <TheTictactoeSquare
@@ -124,6 +125,7 @@ const setPlayer = () => {
           />
         </template>
       </div>
+      
       <div :class="['board', 'v-margin-bottom--medium']">
         The Board - Free squares: {{ countFreeSquare }} / {{ selectedTypeGame }}<br />
 
