@@ -84,7 +84,7 @@ const setPlayer = () => {
   <h1>Tic Tac Toe</h1>
 
   <div class="wrapper-game flex flex-align-center flex-justify-center">
-    <div class="flex flex-column flex-align-center flex-justify-center">
+    <div class="wrapper-game-ctn flex flex-column flex-align-center flex-justify-center">
       <div class="v-margin-bottom--small">
         Select the game :
         <div class="flex flex-row">

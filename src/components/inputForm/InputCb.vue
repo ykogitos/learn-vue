@@ -87,55 +87,77 @@ const clearInput = () => {
   position: relative;
 }
 
+/**
+* Miscellanous function to adapt JPG sprite
+* @WIDTH: int
+* @$HEIGHT: int
+*/
+
+$WIDTH: 124px;
+$HEIGHT: 78px;
+$RATIO: calc($WIDTH / $HEIGHT);
+
+$w: calc(40px - 8px);
+$h: floor(calc($w / $RATIO));
+
+@function relativeOffset($position) {
+  @return floor(calc($position * $HEIGHT * -1) * calc($h / $HEIGHT));
+}
+
+
+
 input {
-  height: 40px;
-  padding-left: 54px;
+  height: calc($h + 6px);
+  padding-left: calc($w + 8px);
   background-color: #f9f9f9;
   border: 1px solid #aaa;
-  border-radius: 3px;
+  border-radius: 2px;
   &:focus {
-    outline: 2px solid #707070;
+    outline: 1px solid #aaa;
   }
 }
+
+
+
 
 .logo-cb {
   position: absolute;
   left: 3px;
   top: 3px;
   display: inline-block;
-  width: 52px;
-  height: 34px;
+  width: $w;
+  height: $h;
   background-image: url('/images/logo_cb.png');
-  background-position: 0 -228px;
+  background-position: 0 relativeOffset(7);
   background-color: transparent;
   background-size: cover;
 
   &.jcb {
-    background-position-y: 0;
+    background-position-y: relativeOffset(0);
   }
 
   &.discover {
-    background-position-y: -32px;
+    background-position-y: relativeOffset(1);
   }
 
   &.diner {
-    background-position-y: -66px;
+    background-position-y: relativeOffset(2);
   }
 
   &.mastercard {
-    background-position-y: -98px;
+    background-position-y: relativeOffset(3);
   }
 
   &.american-express {
-    background-position-y: -130px;
+    background-position-y: relativeOffset(4);
   }
 
   &.visa {
-    background-position-y: -162px;
+    background-position-y: relativeOffset(5);
   }
 
   &.visa-electron {
-    background-position-y: -196px;
+    background-position-y: relativeOffset(6);
   }
 }
 </style>

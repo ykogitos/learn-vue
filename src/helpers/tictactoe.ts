@@ -31,7 +31,7 @@ export const getWinningSquareIndex = (l: number): Array<Array<number>> => {
 }
 
 export const setTictactoeCssWidth = (value: number): void => {
-  document.documentElement.style.setProperty('--tic-tac-toe-width', Math.sqrt(value) * 10 + 'vh')
+  document.documentElement.style.setProperty('--tic-tac-toe-width', Math.sqrt(value) * 10 + 'vw')
 }
 
 export const getBinaryArray = (player: string, squareItems: string[]): number[] => {
