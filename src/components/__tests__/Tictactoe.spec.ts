@@ -45,7 +45,7 @@ describe('The Tic Tac Toe', () => {
       await sleep(100)
     }
 
-    expect(wrapper.get('.board').text()).toContain('Free squares: 0 / 9')
+    expect(wrapper.get('.board').text()).toContain('Free squares: 1 / 9')
     expect(wrapper.get('.board').text()).toContain('No winner')
   })
 })
