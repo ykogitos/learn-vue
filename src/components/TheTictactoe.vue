@@ -53,7 +53,7 @@
     countFreeSquare.value = value
     player.value = Math.random() > .5 ? 'O' : 'X'
     setTictactoeCssWidth(value)
-    if (player.value === 'O') handleSquareItem(4)
+    // if (player.value === 'O') handleSquareItem(4)
   }
 
   const handleSquareItem = (index: number) => {
@@ -88,9 +88,9 @@
     player.value = player.value === 'X' ? 'O' : 'X'
   }
 
-  onMounted(()=>{
-    if (player.value === 'O') handleSquareItem(4)
-  })
+  // onMounted(()=>{
+  //   if (player.value === 'O') handleSquareItem(4)
+  // })
 </script>
 
 <template>
