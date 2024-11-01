@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { onMounted, ref } from 'vue'
   import TheTictactoeSquare from './TheTictactoeSquare.vue'
   import {
     getWinningSquareIndex,
@@ -53,6 +53,7 @@
     countFreeSquare.value = value
     player.value = Math.random() > .5 ? 'O' : 'X'
     setTictactoeCssWidth(value)
+    if (player.value === 'O') handleSquareItem(4)
   }
 
   const handleSquareItem = (index: number) => {
@@ -86,6 +87,10 @@
   const setPlayer = () => {
     player.value = player.value === 'X' ? 'O' : 'X'
   }
+
+  onMounted(()=>{
+    if (player.value === 'O') handleSquareItem(4)
+  })
 </script>
 
 <template>
