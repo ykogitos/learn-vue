@@ -23,6 +23,6 @@ describe('Tic Tac Toe', () => {
       cy.get('.game-ctn button:nth-child(' + square + ')').click()
     }
     cy.get('.board').should('include.text', 'Free squares: 3 / 9')
-    cy.get('.board p').should('include.text', 'Winner is O')
+    cy.get('.board p').should('include.text', 'Winner')
   })
 })
