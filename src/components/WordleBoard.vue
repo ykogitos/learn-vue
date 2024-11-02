@@ -1,13 +1,16 @@
 <script setup lang="ts">
   import { DEFEAT_MESSAGE, MAX_GUESSES_COUNT, VICTORY_MESSAGE } from '@/helpers/settings-wordle'
   import englishWords from '@/helpers/englishWordsWith5Letters.json'
+
   import { ref } from 'vue';
   // import { computed, ref } from 'vue';
   const props = defineProps({
     wordOfTheDay: {
       type: String,
       required: true,
-      validator: (wordGiven: string) => wordGiven.length === 5 && wordGiven.toUpperCase() === wordGiven && englishWords.includes(wordGiven)
+      validator: (wordGiven: string) => wordGiven.length === 5
+        && wordGiven.toUpperCase() === wordGiven
+        && englishWords.includes(wordGiven)
     }
   })
 
