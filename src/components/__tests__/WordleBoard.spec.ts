@@ -49,4 +49,24 @@ describe('WordleBoard', () => {
     expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
     expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
   })
+
+  test('If the word of the days doesn`t not have exactly 5 chracters, a warning is emitted', async () => {
+    // do that:
+    // const spy = vi.spyOn(console, "warn")
+    // spy.mockImplementation(() => null)
+    // or :
+    console.warn = vi.fn()
+    mount(WordleBoard, {
+      props: { wordOfTheDay: "FLY" }
+    })
+    expect(console.warn).toHaveBeenCalled()
+  })
+
+  test('If the word of the day is not all in uppercase, a warning is emitting', async () => {
+    console.warn = vi.fn()
+    mount(WordleBoard, {
+      props: { wordOfTheDay: "tests" }
+    })
+    expect(console.warn).toHaveBeenCalled()
+  })
 })

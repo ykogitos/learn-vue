@@ -7,7 +7,7 @@
     wordOfTheDay: {
       type: String,
       required: true,
-      validator: (wordGiven: string) => englishWords.includes(wordGiven)
+      validator: (wordGiven: string) => wordGiven.length === 5 && wordGiven.toUpperCase() === wordGiven && englishWords.includes(wordGiven)
     }
   })
 
