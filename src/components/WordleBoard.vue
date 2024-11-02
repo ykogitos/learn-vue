@@ -1,27 +1,87 @@
-<script setup lang="ts">
-  import { DEFEAT_MESSAGE, MAX_GUESSES_COUNT, VICTORY_MESSAGE } from '@/helpers/settings-wordle'
-  import englishWords from '@/helpers/englishWordsWith5Letters.json'
+<script lang="ts" setup>
+  import { DEFEAT_MESSAGE, MAX_GUESSES_COUNT, VICTORY_MESSAGE, WORD_SIZE } from "@/helpers/settings-wordle"
+  import englishWords from "@/helpers/englishWordsWith5Letters.json"
+  import { computed, ref } from "vue"
+  import GuessInput from "./GuessInput.vue"
+  import GuessView from "./GuessView.vue"
 
-  import { ref } from 'vue';
-  // import { computed, ref } from 'vue';
   const props = defineProps({
     wordOfTheDay: {
       type: String,
       required: true,
-      validator: (wordGiven: string) => wordGiven.length === 5
-        && wordGiven.toUpperCase() === wordGiven
-        && englishWords.includes(wordGiven)
+      validator: (wordGiven: string) => englishWords.includes(wordGiven)
     }
   })
 
-  const guessInProgress = ref('')
-  const guessSubmitted = ref('')
+  const guessesSubmitted = ref<string[]>([])
+
+  const isGameOver = computed(() =>
+    guessesSubmitted.value.length === MAX_GUESSES_COUNT
+    || guessesSubmitted.value.includes(props.wordOfTheDay)
+  )
+
+  const countOfEmptyGuesses = computed(() => {
+    const guessesRemaining = MAX_GUESSES_COUNT - guessesSubmitted.value.length
+
+    return isGameOver.value ? guessesRemaining : guessesRemaining - 1
+  })
 </script>
+
 <template>
   <main>
-    <h1>The Wordle Board</h1>
-    <p v-if="guessSubmitted.length > 0" v-text="guessSubmitted === wordOfTheDay ? VICTORY_MESSAGE : DEFEAT_MESSAGE" />
-    <input type="text" v-model="guessInProgress" @keydown.enter="guessSubmitted = guessInProgress">
-    <p>Word of the day: {{ props.wordOfTheDay }}</p>
+    <ul>
+      <li v-for="(guess, index) in guessesSubmitted" :key="`${index}-${guess}`">
+        <guess-view :answer="wordOfTheDay" :guess="guess" />
+      </li>
+      <li>
+        <guess-input :disabled="isGameOver" @guess-submitted="guess => guessesSubmitted.push(guess)" />
+      </li>
+      <li v-for="i in countOfEmptyGuesses" :key="`remaining-guess-${i}`">
+        <guess-view guess="" />
+      </li>
+    </ul>
+
+    <!-- <p v-if="isGameOver" class="end-of-game-message"
+      v-text="guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE" /> -->
+      <p class="end-of-game-message"
+      v-text="guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE" />
   </main>
 </template>
+
+<style scoped>
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .end-of-game-message {
+    font-size: 3rem;
+    animation: end-of-game-message-animation 700ms forwards;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+
+  @keyframes end-of-game-message-animation {
+    0% {
+      opacity: 0;
+      transform: rotateZ(0);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(2rem);
+    }
+  }
+</style>

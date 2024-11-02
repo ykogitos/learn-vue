@@ -8,7 +8,8 @@ import WordleBoard from '../WordleBoard.vue'
 import {
   DEFEAT_MESSAGE,
   // MAX_GUESSES_COUNT,
-  VICTORY_MESSAGE
+  VICTORY_MESSAGE,
+  WORD_SIZE
   // WORD_SIZE
 } from '@/helpers/settings-wordle'
 
@@ -43,7 +44,7 @@ describe('WordleBoard', () => {
     })
 
     test('a defeat message appears when the user make an incorrect answer', async () => {
-      await playerTypesAndSubmitsGuess('WRONG')
+      await playerTypesAndSubmitsGuess('QWERT')
       expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
     })
 
@@ -87,8 +88,15 @@ describe('WordleBoard', () => {
   })
 
   describe("Player input", () => {
-    test.todo("player guesses are limited to 5 letters")
-    test.todo("player guesses can only be submitted if they are real words")
+    test(`player guesses are limited to ${WORD_SIZE} letters`, async () => {
+      await playerTypesAndSubmitsGuess(wordOfTheDay + 'EXTRA')
+      expect(wrapper.text()).toContain(VICTORY_MESSAGE)
+    })
+    test("player guesses can only be submitted if they are real words", async ()=> {
+      await playerTypesAndSubmitsGuess('QWERT')
+      expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
+      expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
+    })
     test.todo("player guesses are not case sensitive")
     test.todo("player guesses can only contain letter")
   })
