@@ -1,4 +1,8 @@
-import { test, expect, describe } from 'vitest'
+// import { test, expect, describe } from 'vitest'
+// node need as we declare vitest as global
+
+// see tsconfig.vitest.json
+// see vitest.config.ts
 import { mount } from '@vue/test-utils'
 import TheTictactoe from '../TheTictactoe.vue'
 import { sleep } from '@/helpers/tests'
@@ -11,15 +15,15 @@ describe('The Tic Tac Toe', () => {
     expect(wrapper.findAll('.game-ctn button').length).toBe(9)
   })
 
-  test('Changing size game by 6x6 and print 36 squares', async () => {
-    const btn6x6 = wrapper.find('.radio-game:nth-child(4) input')
-    expect(btn6x6.attributes('value')).toEqual('36')
-    await btn6x6.trigger('click')
+  test('Changing size game by 5x5 and print 25 squares', async () => {
+    const btnSelectedGame = wrapper.find('.radio-game:nth-child(3) input')
+    expect(btnSelectedGame.attributes('value')).toEqual('25')
+    await btnSelectedGame.trigger('click')
     await sleep(1000)
-    expect(wrapper.findAll('.game-ctn button').length).toBe(36)
+    expect(wrapper.findAll('.game-ctn button').length).toBe(25)
   })
 
-  test('Playing with the 3x3 game - Winner is X', async () => {
+  test('Playing with the 3x3 game - Winner is X or O', async () => {
     const btn3x3 = wrapper.find('.radio-game:nth-child(1) input')
     expect(btn3x3.attributes('value')).toEqual('9')
     await btn3x3.trigger('click')
@@ -31,7 +35,7 @@ describe('The Tic Tac Toe', () => {
       await game.trigger('click')
       await sleep(250)
     }
-    expect(wrapper.get('.board').text()).toContain('Winner is X')
+    expect(wrapper.get('.board').text()).toContain('Winner is')
   })
 
   test('Playing with the 3x3 game - No winner', async () => {

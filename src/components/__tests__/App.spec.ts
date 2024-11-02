@@ -1,4 +1,8 @@
-import { test, expect, describe } from 'vitest'
+// import { test, expect, describe } from 'vitest'
+// node need as we declare vitest as global
+
+// see tsconfig.vitest.json
+// see vitest.config.ts
 import { mount } from '@vue/test-utils'
 import router from '@/router'
 import App from '@/App.vue'

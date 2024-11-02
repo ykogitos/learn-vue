@@ -25,6 +25,15 @@ const routes = [
     }
   },
   {
+    path: '/the-wordle',
+    name: 'the-wordle',
+    component: () => import('@/views/WordleView.vue'),
+    meta: {
+      title: 'The Wordle | Kgt app',
+      description: 'A TDD app'
+    }
+  },
+  {
     path: '/the-form',
     name: 'the-form',
     component: () => import('@/views/FormView.vue'),

@@ -1,5 +1,8 @@
-import { test, expect } from 'vitest'
+// import { test, expect } from 'vitest'
+// node need as we declare vitest as global
 
+// see tsconfig.vitest.json
+// see vitest.config.ts
 import { mount } from '@vue/test-utils'
 import SidebarMenu from '../nav/SidebarMenu.vue'
 import type { LinkInterface } from '@/interfaces'
