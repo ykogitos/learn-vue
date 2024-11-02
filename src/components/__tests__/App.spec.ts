@@ -42,7 +42,7 @@ describe('App Navigation', async () => {
   test('By clicking on the second link, it should become active and sidebar is folded', async () => {
     const secondLink = wrapper.get('aside ul li:nth-child(2) a')
     await secondLink.trigger('click')
-    await sleep()
+    await sleep(500)
     expect(secondLink.classes()).toEqual(['router-link-active', 'router-link-exact-active'])
     expect(wrapper.get('aside').classes()).toEqual(['aside', 'flex', 'transition-in-out'])
   })

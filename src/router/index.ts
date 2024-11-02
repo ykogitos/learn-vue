@@ -14,7 +14,7 @@ const routes = [
   },
   {
     path: '/tic-tac-toe',
-    name: 'tic-tac-toe',
+    name: 'Tic Tac Toe',
     // route level code-splitting
     // this generates a separate chunk (About.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -26,7 +26,7 @@ const routes = [
   },
   {
     path: '/the-wordle',
-    name: 'the-wordle',
+    name: 'the wordle',
     component: () => import('@/views/WordleView.vue'),
     meta: {
       title: 'The Wordle | Kgt app',
@@ -35,7 +35,7 @@ const routes = [
   },
   {
     path: '/the-form',
-    name: 'the-form',
+    name: 'the form',
     component: () => import('@/views/FormView.vue'),
     meta: {
       title: 'The form | Kgt app',
