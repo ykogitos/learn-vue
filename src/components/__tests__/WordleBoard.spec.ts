@@ -36,6 +36,7 @@ describe('WordleBoard', () => {
   }
 
   describe('End of game messages', () => {
+
     test('a victory message appears when the user makes a guess that matches the word of the day', async () => {
       await playerTypesAndSubmitsGuess(wordOfTheDay)
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
@@ -53,30 +54,33 @@ describe('WordleBoard', () => {
   })
 
   describe('Rules for defining the word of the day', () => {
-    test('If the word of the days doesn`t not have exactly 5 chracters, a warning is emitted', async () => {
+    // refactoring common function
+    beforeEach(() => {
+      console.warn = vi.fn()
+    })
+
+    test.each([
+      {wordOfTheDay: "QWERT", reason: "word-of-the-day must be a real english word"},
+      {wordOfTheDay: "tests", reason: "word-of-the-day must be all in puppercase"},
+      {wordOfTheDay: "FLY", reason: "word-of-the-day must have 5 characters exactly"},
+    ])("Since $reason: $wordOfTheDay is invalid, therefore a warning is emitted", async ({wordOfTheDay}) => {
       // do that:
       // const spy = vi.spyOn(console, "warn")
       // spy.mockImplementation(() => null)
       // or :
-      console.warn = vi.fn()
+      // console.warn = vi.fn()
+
       mount(WordleBoard, {
-        props: { wordOfTheDay: 'FLY' }
+        props: { wordOfTheDay }
       })
       expect(console.warn).toHaveBeenCalled()
     })
 
-    test('If the word of the day is not all in uppercase, a warning is emitting', async () => {
-      console.warn = vi.fn()
-      mount(WordleBoard, {
-        props: { wordOfTheDay: 'tests' }
-      })
-      expect(console.warn).toHaveBeenCalled()
-    })
+    test("No warning emitted if the word of the day is TESTS", async () => {
+      // console.warn = vi.fn()
 
-    test('If the word of the day is a real uppercase english word with 5 caracters', async () => {
-      console.warn = vi.fn()
       mount(WordleBoard, {
-        props: { wordOfTheDay: 'TESTS' }
+        props: { wordOfTheDay }
       })
       expect(console.warn).not.toHaveBeenCalled()
     })
