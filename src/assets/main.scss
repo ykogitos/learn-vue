@@ -1,6 +1,6 @@
-@import './base.scss';
-@import './flex.scss';
-@import './form.scss';
+@use 'base.scss';
+@use 'flex.scss';
+@use 'form.scss';
 
 #app {
   max-width: 1280px;
