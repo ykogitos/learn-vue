@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-  import { DEFEAT_MESSAGE, MAX_GUESSES_COUNT, VICTORY_MESSAGE } from "@/helpers/settings-wordle"
-  import englishWords from "@/helpers/englishWordsWith5Letters.json"
   import { computed, ref } from "vue"
   import GuessInput from "./GuessInput.vue"
   import GuessView from "./GuessView.vue"
+  import englishWords from "@/helpers/englishWordsWith5Letters.json"
+  import { DEFEAT_MESSAGE, MAX_GUESSES_COUNT, VICTORY_MESSAGE } from "@/helpers/settings-wordle"
+
 
   const props = defineProps({
     wordOfTheDay: {
@@ -33,7 +34,6 @@
     guessesSubmitted.value = []
     randomWord.value = englishWords[Math.floor(Math.random() * englishWords.length)]
   }
-
 </script>
 
 <template>
@@ -57,8 +57,19 @@
       <button v-if="isGameOver" class="end-of-game-message" @click="newGame">New Game</button>
     </div>
 
-    <p v-if="isGameOver" class="end-of-game-message"
-      v-text="guessesSubmitted.includes(randomWord) ? VICTORY_MESSAGE : DEFEAT_MESSAGE"></p>
+    <template v-if="isGameOver">
+      <template v-if="guessesSubmitted.includes(randomWord)">
+        <p class="end-of-game-message">{{ VICTORY_MESSAGE }}</p>
+      </template>
+      <template v-else>
+        <p class="end-of-game-message">{{ DEFEAT_MESSAGE }}</p>
+        <div class="end-of-game-message">The word was
+          <div class="flex flex-align-center flex-justify-center">
+            <span v-for="(letter, index) in randomWord" :key="`letter-${index}`">{{ letter }}</span>
+          </div>
+        </div>
+      </template>
+    </template>
   </div>
 </template>
 
@@ -78,6 +89,16 @@
     animation: end-of-game-message-animation 700ms forwards;
     white-space: nowrap;
     text-align: center;
+
+    & span {
+      margin: 0.1rem;
+      width: 1.9rem;
+      height: 1.9rem;
+      background-color: var(--vt-c-green);
+      color: var(--vt-c-white);
+      font-weight: bold;
+      border-radius: 0.1rem;
+    }
   }
 
   button.end-of-game-message {
