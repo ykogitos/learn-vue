@@ -49,11 +49,23 @@
 </script>
 
 <template>
-  <guess-view v-if="!disabled" :class="{ shake: hasFailedValidation }" :guess="formattedGuessInProgress" type="current"/>
+  <guess-view 
+    v-if="!disabled" :class="{ shake: hasFailedValidation }" 
+    :guess="formattedGuessInProgress" 
+    type="current"
+    :intersection="[]"/>
 
-  <input ref="input" class="wordle" v-model="formattedGuessInProgress" :maxlength="WORD_SIZE" :disabled="disabled"
-    aria-label="Make your guess for the word of the day!" autofocus
-    @blur="({ target }) => (target as HTMLInputElement).focus()" type="text" @keydown.enter="onSubmit">
+  <input 
+    ref="input" 
+    class="wordle" 
+    v-model="formattedGuessInProgress" 
+    :maxlength="WORD_SIZE" 
+    :disabled="disabled"
+    aria-label="Make your guess for the word of the day!" 
+    autofocus
+    @blur="({ target }) => (target as HTMLInputElement).focus()" 
+    type="text" 
+    @keydown.enter="onSubmit">
 </template>
 
 <style scoped>

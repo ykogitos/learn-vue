@@ -72,6 +72,7 @@ const clearInput = () => {
 </template>
 
 <style lang="scss" scoped>
+@use 'sass:math';
 .svg {
   width: 1.6rem;
   height: 1.6rem;
@@ -98,10 +99,10 @@ $HEIGHT: 78px;
 $RATIO: calc($WIDTH / $HEIGHT);
 
 $w: calc(40px - 8px);
-$h: floor(calc($w / $RATIO));
+$h: math.floor(calc($w / $RATIO));
 
 @function relativeOffset($position) {
-  @return floor(calc($position * $HEIGHT * -1) * calc($h / $HEIGHT));
+  @return math.floor(calc($position * $HEIGHT * -1) * calc($h / $HEIGHT));
 }
 
 

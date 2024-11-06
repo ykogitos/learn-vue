@@ -1,7 +1,12 @@
 <script lang="ts" setup>
   import { WORD_SIZE } from "@/helpers/settings-wordle"
 
-  const props = defineProps<{ guess: string, answer?: string, type:string }>()
+  const props = defineProps<{
+    guess: string,
+    answer?: string,
+    intersection: string[],
+    type: string
+  }>()
 
   function getFeedback(letterPosition: number): null | "correct" | "incorrect" | "almost" {
     if (!props.answer) {
@@ -10,13 +15,18 @@
 
     const letterGuessed = props.guess[letterPosition]
     const letterExpected = props.answer[letterPosition]
-    // console.log(props.answer + ' letter position: ' + letterPosition, 'guess: ' + letterGuessed, 'Expected: ' + letterExpected)
-
+    console.log(letterGuessed, props.intersection)
+    let letterStatus: null | "correct" | "incorrect" | "almost" = null
     if (!props.answer.includes(letterGuessed)) {
       return "incorrect"
     }
 
-    return letterExpected === letterGuessed ? "correct" : "almost"
+    if (letterExpected === letterGuessed) {
+      letterStatus = "correct"
+    } else {
+      letterStatus = props.guess[letterPosition] === props.intersection[letterPosition] ? "almost" : "incorrect"
+    }
+    return letterStatus
   }
 
 </script>
@@ -24,7 +34,8 @@
 <template>
   <ul class="word" :class="type">
     <li v-for="(letter, index) in guess.padEnd(WORD_SIZE, ' ')" :key="`${letter}-${index}`" :data-letter="letter"
-      :class="{ 'with-flips': answer, highlighted: type === 'current' && index === guess.length}" :data-letter-feedback="getFeedback(index)" class="letter" v-text="letter" />
+      :class="{ 'with-flips': answer, highlighted: type === 'current' && index === guess.length }"
+      :data-letter-feedback="getFeedback(index)" class="letter" v-text="letter" />
   </ul>
 </template>
 
@@ -79,7 +90,7 @@
   [data-letter-feedback=correct] {
     --back-color: var(--vt-c-green);
     --border-color: var(--vt-c-green);
-   
+
   }
 
   [data-letter-feedback=almost] {
