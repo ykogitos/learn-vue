@@ -108,10 +108,13 @@ describe('WordleBoard', () => {
         attachTo: '#app'
       })
 
-      expect(wrapper.find('input[type=text]').attributes('autofocus')).not.toBeUndefined()
+      await wrapper.find('input.wordle[type=text]').trigger('focus')
 
-      await wrapper.find('input[type=text]').trigger('blur')
-      expect(document.activeElement).toBe(wrapper.find('input[type=text]').element)
+      expect(wrapper.find('input.wordle[type=text]').attributes('autofocus')).toBeUndefined()
+      expect(document.activeElement).toBe(wrapper.find('input.wordle[type=text]').element);
+
+      await wrapper.find('input.wordle[type=text]').trigger('blur')
+      expect(document.activeElement).toBe(wrapper.find('input.wordle[type=text]').element)
     })
 
     test('the input gets cleared after each submission', async () => {

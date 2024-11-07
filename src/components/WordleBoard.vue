@@ -15,7 +15,7 @@ const props = defineProps({
 
 const randomWord = ref(props.wordOfTheDay)
 const guessesSubmitted = ref<string[]>([])
-
+const guessInputRef = ref<InstanceType<typeof GuessInput> | null>(null)
 const isGameOver = computed(() => {
   return (
     guessesSubmitted.value.length === MAX_GUESSES_COUNT ||
@@ -62,6 +62,8 @@ const getCurrentIntersection = (index: number) => {
 function newGame() {
   guessesSubmitted.value = []
   randomWord.value = englishWords[Math.floor(Math.random() * englishWords.length)]
+  guessInputRef?.value?.inputFocus()
+
 }
 </script>
 
@@ -81,6 +83,7 @@ function newGame() {
         <guess-input
           :disabled="isGameOver"
           @guess-submitted="(guess) => guessesSubmitted.push(guess)"
+          ref="guessInputRef"
         />
       </li>
       <li v-for="i in countOfEmptyGuesses" :key="`remaining-guess-${i}`">

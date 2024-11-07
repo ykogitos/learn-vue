@@ -15,7 +15,6 @@
 
     const letterGuessed = props.guess[letterPosition]
     const letterExpected = props.answer[letterPosition]
-    console.log(letterGuessed, props.intersection)
     let letterStatus: null | "correct" | "incorrect" | "almost" = null
     if (!props.answer.includes(letterGuessed)) {
       return "incorrect"
