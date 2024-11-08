@@ -1,35 +1,35 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import InputRadio from '@/components/inputForm/InputRadio.vue'
-  import InputCb from '@/components/inputForm/InputCb.vue'
+import { ref } from 'vue'
+import InputRadio from '@/components/inputForm/InputRadio.vue'
+import InputCb from '@/components/inputForm/InputCb.vue'
 
-  const inputRadioValues: { id: string; label: string; value: string; selected: boolean }[] = [
-    {
-      id: 'radio-1',
-      label: '1',
-      value: '1',
-      selected: false
-    },
-    {
-      id: 'radio-2',
-      label: '2',
-      value: '2',
-      selected: false
-    },
-    {
-      id: 'radio-3',
-      label: '3',
-      value: '3',
-      selected: false
-    }
-  ]
+const inputRadioValues: { id: string; label: string; value: string; selected: boolean }[] = [
+  {
+    id: 'radio-1',
+    label: '1',
+    value: '1',
+    selected: false
+  },
+  {
+    id: 'radio-2',
+    label: '2',
+    value: '2',
+    selected: false
+  },
+  {
+    id: 'radio-3',
+    label: '3',
+    value: '3',
+    selected: false
+  }
+]
 
-  const required = ref(true)
+const required = ref(true)
 
-  const formData = ref({
-    civility: '',
-    cbNumber: ''
-  })
+const formData = ref({
+  civility: '',
+  cbNumber: ''
+})
 </script>
 <template>
   <main>
@@ -37,18 +37,27 @@
     <form class="form">
       <fieldset>
         <div id="civility">
-          <input-radio :inputRadioValues="inputRadioValues" name="civility" legend="Radio form" :required="required"
-            @update:value="($event) => {
+          <input-radio
+            :inputRadioValues="inputRadioValues"
+            name="civility"
+            legend="Radio form"
+            :required="required"
+            @update:value="
+              ($event) => {
                 formData.civility = $event.target.value
               }
-              " />
+            "
+          />
         </div>
       </fieldset>
       <fieldset>
-        <input-cb @update:value="(value) => {
-            formData.cbNumber = value.replace(/ /g, '')
-          }
-          " />
+        <input-cb
+          @update:value="
+            (value) => {
+              formData.cbNumber = value.replace(/ /g, '')
+            }
+          "
+        />
       </fieldset>
       <!-- <fieldset>
         <div>

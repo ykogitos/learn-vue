@@ -51,7 +51,7 @@ export const createRows = (gameStatus: number[], winningSquaresIndexes: number[]
   return rows
 }
 
-const computePlayable = (rows:number[][]) => {
+const computePlayable = (rows: number[][]) => {
   for (let i = 0, l = rows.length; i < l; i++) {
     if (rows[i].reduce((acc, x) => acc + x, 0) >= 0) {
       return true
@@ -61,19 +61,22 @@ const computePlayable = (rows:number[][]) => {
   return false
 }
 
-export const computeWinner = (size: number, rows: number[][]): { win: boolean; row: number, playable: boolean } => {
+export const computeWinner = (
+  size: number,
+  rows: number[][]
+): { win: boolean; row: number; playable: boolean } => {
   const out = {
-    win: false, 
+    win: false,
     row: -1,
     playable: false
   }
   // check is there is a winner
   for (let i = 0, l = rows.length; i < l; i++) {
     if (rows[i].reduce((acc, x) => acc + x, 0) === size) {
-      out.win = true;
-      out.row = i;
-      out.playable = false;
-      break;
+      out.win = true
+      out.row = i
+      out.playable = false
+      break
     }
   }
 

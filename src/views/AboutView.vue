@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import TheAbout from '@/components/TheAbout.vue'
+import TheAbout from '@/components/TheAbout.vue'
 </script>
 
 <template>
@@ -23,28 +23,28 @@
 </template>
 
 <style lang="scss" scoped>
-  strong {
+strong {
+  font-weight: bold;
+  color: var(--vt-c-red);
+
+  &:before {
     font-weight: bold;
-    color: var(--vt-c-red);
-
-    &:before {
-      font-weight: bold;
-      content: '<';
-    }
-
-    &:after {
-      font-weight: bold;
-      content: '>';
-    }
+    content: '<';
   }
 
-  @media (min-width: 1024px) {
-    .about {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+  &:after {
+    font-weight: bold;
+    content: '>';
   }
+}
+
+@media (min-width: 1024px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
 </style>
