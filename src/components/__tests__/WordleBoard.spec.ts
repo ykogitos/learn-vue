@@ -19,10 +19,10 @@ describe('WordleBoard', () => {
 
   beforeEach(() => {
     wrapper = mount(WordleBoard, {
-        props: {
-            wordOfTheDay: 'TESTS'
-        }}
-    )
+      props: {
+        wordOfTheDay: 'TESTS'
+      }
+    })
   })
 
   async function playerTypesGuess(guess: string) {
@@ -93,8 +93,9 @@ describe('WordleBoard', () => {
     test('no warning is emitted if the word of the day provided is a real uppercase English word with 5 characters', async () => {
       mount(WordleBoard, {
         props: {
-            wordOfTheDay: 'BALLS'
-        }})
+          wordOfTheDay: 'BALLS'
+        }
+      })
 
       expect(console.warn).not.toHaveBeenCalled()
     })
@@ -111,7 +112,7 @@ describe('WordleBoard', () => {
       await wrapper.find('input.wordle[type=text]').trigger('focus')
 
       expect(wrapper.find('input.wordle[type=text]').attributes('autofocus')).toBeUndefined()
-      expect(document.activeElement).toBe(wrapper.find('input.wordle[type=text]').element);
+      expect(document.activeElement).toBe(wrapper.find('input.wordle[type=text]').element)
 
       await wrapper.find('input.wordle[type=text]').trigger('blur')
       expect(document.activeElement).toBe(wrapper.find('input.wordle[type=text]').element)

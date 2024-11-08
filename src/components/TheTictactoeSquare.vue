@@ -91,6 +91,7 @@
   }
 
   @keyframes shake {
+
     10%,
     90% {
       transform: translate3d(0, -1px, 0)

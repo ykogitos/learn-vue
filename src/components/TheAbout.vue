@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-const done = ref(false)
-const hover = ref(false)
+  import { ref } from 'vue'
+  const done = ref(false)
+  const hover = ref(false)
 </script>
 
 <template>
@@ -21,8 +21,8 @@ const hover = ref(false)
 </template>
 
 <style lang="scss" scoped>
-.done {
-  color: var(--vt-c-red);
-  text-decoration: line-through;
-}
+  .done {
+    color: var(--vt-c-red);
+    text-decoration: line-through;
+  }
 </style>

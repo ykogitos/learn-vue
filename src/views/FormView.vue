@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheForm from '@/components/TheForm.vue'
+  import TheForm from '@/components/TheForm.vue'
 </script>
 
 <template>

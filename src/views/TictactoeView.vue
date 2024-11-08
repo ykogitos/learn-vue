@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TheTictactoe from '@/components/TheTictactoe.vue'
+  import TheTictactoe from '@/components/TheTictactoe.vue'
 </script>
 
 <template>
