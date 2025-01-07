@@ -34,6 +34,15 @@ const routes = [
     }
   },
   {
+    path: '/the-slider',
+    name: 'the slider',
+    component: () => import('@/views/SliderView.vue'),
+    meta: {
+      title: 'The Slider | Kgt app',
+      description: 'Using scroll snap'
+    }
+  },
+  {
     path: '/the-form',
     name: 'the form',
     component: () => import('@/views/FormView.vue'),
