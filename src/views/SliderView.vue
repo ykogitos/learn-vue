@@ -3,5 +3,7 @@ import TheSlider from '@/components/TheSlider.vue'
 </script>
 
 <template>
-  <TheSlider />
+  <main>
+    <TheSlider />
+  </main>
 </template>
