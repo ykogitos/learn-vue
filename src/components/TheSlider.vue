@@ -72,6 +72,7 @@ const folder = ref('/images/slider')
       <p>{{ pic.picture }}</p>
     </div>
   </div>
+  <slot></slot>
 </template>
 
 <style lang="scss" scoped>
@@ -87,7 +88,7 @@ const folder = ref('/images/slider')
 .container {
   padding: 0.5rem;
   margin-left: 0.5rem;
-  scroll-snap-align: start;
+  scroll-snap-align: center;
   border: 0.01rem solid var(--vt-c-divider-dark-3);
   border-radius: 0.3rem;
 }
