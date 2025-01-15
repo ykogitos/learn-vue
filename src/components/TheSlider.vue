@@ -65,6 +65,7 @@ const folder = ref('/images/slider')
 
 <template>
   <h2>{{ helloSlider }}</h2>
+  <slot></slot>
   <div class="wrapper flex flex-row flex-fill">
     <div class="container" v-for="(pic, index) in pics" :key="`pic-${index}`">
       <ResponsivePicture :folder="folder" :name="pic.picture" :width="width" :height="height" />
@@ -72,7 +73,6 @@ const folder = ref('/images/slider')
       <p>{{ pic.picture }}</p>
     </div>
   </div>
-  <slot></slot>
 </template>
 
 <style lang="scss" scoped>
