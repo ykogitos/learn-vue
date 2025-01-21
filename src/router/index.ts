@@ -25,6 +25,15 @@ const routes = [
     }
   },
   {
+    path: '/the-parallax',
+    name: 'the parallax',
+    component: () => import('@/views/ParallaxView.vue'),
+    meta: {
+      title: 'The Parallax | Kgt App',
+      description: 'A visual effect'
+    }
+  },
+  {
     path: '/the-wordle',
     name: 'the wordle',
     component: () => import('@/views/WordleView.vue'),
@@ -89,6 +98,11 @@ router.beforeEach((to) => {
     metaDescriptionElement.setAttribute('name', 'description')
     metaDescriptionElement.setAttribute('content', description || defaultDescription)
     document.querySelector('head')?.appendChild(metaDescriptionElement)
+  }
+  if (to.name === 'the parallax') {
+    document.body.setAttribute('class', 'parallax')
+  } else {
+    document.body.setAttribute('class', 'default')
   }
 })
 

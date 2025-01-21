@@ -9,6 +9,21 @@
   font-weight: normal;
 }
 
+body.parallax #app {
+  padding: 0;
+}
+
+body.parallax:after {
+  content: '';
+  display:block;
+  height: 2px;
+  width: 100%;
+  background-color: red;
+  position: fixed;
+  top: calc(50% - 1px);
+  z-index: 20;
+}
+
 a,
 .green {
   text-decoration: none;
@@ -39,12 +54,13 @@ a,
 }
 
 @media (min-width: 1024px) {
-  body {
+
+  body.default {
     display: flex;
     place-items: center;
   }
 
-  #app {
+  body.default #app {
     display: grid;
     grid-template-columns: 1fr;
     padding: 0 2rem;
