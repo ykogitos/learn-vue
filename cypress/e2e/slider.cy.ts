@@ -3,7 +3,7 @@ describe('SLIDER', () => {
     cy.visit('/')
     cy.get('.arrow-ctn').click()
     cy.get('.aside').should('have.class', 'expanded')
-    cy.get('nav ul li:nth-child(4)').click()
+    cy.get('nav ul li:nth-child(5)').click()
     cy.get('.aside').should('not.have.class', 'expanded')
     cy.url().should('include', 'the-slider')
     cy.get('main > div').should('satisfy', ($el: HTMLAllCollection) => {

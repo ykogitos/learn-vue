@@ -11,7 +11,7 @@ describe('Open Menu', () => {
     cy.visit('/')
     cy.get('.arrow-ctn').click()
     cy.get('nav ul li:nth-child(3)').click()
-    cy.url().should('include', 'the-wordle')
+    cy.url().should('include', 'the-parallax')
     cy.get('.aside').should('not.have.class', 'expanded')
   })
 })
