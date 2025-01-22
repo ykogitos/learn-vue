@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import { Parallax } from '@/helpers/parallax'
 
 const props = defineProps<{
   bgColor: string
@@ -11,12 +10,19 @@ const radius = computed(() => props.radius + 'px')
 
 const calcRadius = () =>
   computed(() => {
+    // const r = props.radius
+    const r = 50
+    const positionX = r * (Math.random() - 0.5)
+    const positionY = r * (Math.random() - 0.5)
+
+    // const satRadius = (positionX * positionX + positionY + positionY) * 0.02
+    const satRadius = 10
     return {
-      left: 'calc(50% + ' + 1.5 * props.radius * (Math.random() - 0.5) + 'px)',
-      top: 'calc(50% + ' + 1.5 * props.radius * (Math.random() - 0.5) + 'px)',
-      'border-radius': 5 + 'px',
-      width: 5 + 'px',
-      height: 5 + 'px'
+      left: 'calc(50% + ' + 1.5 * positionX + 'px)',
+      top: 'calc(50% + ' + 1.5 * positionY + 'px)',
+      'border-radius': satRadius + 'px',
+      width: satRadius + 'px',
+      height: satRadius + 'px'
     }
   })
 </script>
@@ -26,28 +32,27 @@ const calcRadius = () =>
     <slot></slot>
     <div class="round absolute"></div>
     <div
-      v-for="n in 100"
-      :key="`sat-${n}`"
+      v-for="n in 10"
+      :key="`${bgColor}-sat-${n}`"
       class="absolute sat"
       :class="`${props.bgColor} sat-${n}`"
       :style="calcRadius().value"
       :data-parallax="Math.random()"
-    ></div>
+    >
+      {{ n }}
+    </div>
   </section>
 </template>
 
 <style lang="scss" scoped>
 section {
   height: 100vh;
+  max-height: 100vh;
+  width: 100vw;
+  max-width: calc(100vw - 17px);
+  overflow: hidden;
   position: relative;
   background-color: v-bind(bgColor);
-}
-
-h1,
-h2 {
-  text-align: center;
-  position: fixed;
-  top: 0;
 }
 
 .round {
@@ -61,7 +66,8 @@ h2 {
 
 .sat {
   background-color: black;
-  // z-index: 100;
+  transition: all 0.2s;
+  padding-top: 5px;
 }
 
 .absolute {

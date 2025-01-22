@@ -9,6 +9,10 @@
   font-weight: normal;
 }
 
+body {
+  position: relative;
+}
+
 body.parallax #app {
   padding: 0;
 }

@@ -12,18 +12,45 @@ export class Parallax {
   constructor(element: HTMLElement) {
     this.element = element
     this.ratio = parseFloat(this.element.dataset.parallax as string)
-    this.addListener()
+    const observer = new IntersectionObserver(this.onIntersection)
+    observer.observe(this.element)
+    // this.onScroll()
+    // this.addListener()
   }
 
   addListener = () => {
     document.addEventListener('scroll', this.onScroll)
   }
 
+  removeListener = () => {
+    document.removeEventListener('scroll', this.onScroll)
+  }
+
+  onIntersection = (entries: IntersectionObserverEntry[]) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        this.onScroll()
+        this.addListener()
+      } else {
+        this.removeListener()
+      }
+    }
+  }
+
   onScroll = () => {
     const screenY = window.scrollY + window.innerHeight / 2
     const elementOffsetTop = offsetTop(this.element) + this.element.offsetHeight / 2
+    const diff = elementOffsetTop - screenY
 
-    if (this.element.getAttribute('class')?.indexOf('yellow sat-88') !== -1) {
+    // const diffRatio = Math.max(Math.floor(diff * this.ratio), 50)
+    const diffRatio = diff * this.ratio
+    console.log(this.element.getAttribute('class'), 'diffRatio', diffRatio)
+    this.element.style.setProperty(
+      'transform',
+      `translateY(${diffRatio}px) translateX(${diffRatio * -1}px)`
+    )
+
+    if (this.element.getAttribute('class')?.indexOf('sat-10') !== -1) {
       console.log(
         this.element.getAttribute('class'),
         'elementOffsetTop',
