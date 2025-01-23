@@ -5,15 +5,19 @@ function offsetTop(element: HTMLElement, acc: number = 0): number {
   return acc + element.offsetTop
 }
 
-export class Parallax {
+export class Parallax2 {
   element: HTMLElement
+  parentElement: HTMLElement
   ratio: number
+  observer: IntersectionObserver
 
-  constructor(element: HTMLElement) {
+  constructor(parentElement: HTMLElement, element: HTMLElement) {
+    this.parentElement = parentElement
     this.element = element
     this.ratio = parseFloat(this.element.dataset.parallax as string)
-    const observer = new IntersectionObserver(this.onIntersection)
-    observer.observe(this.element)
+    this.observer = new IntersectionObserver(this.onIntersection)
+    this.observer.observe(this.parentElement)
+    //observer.observe(this.parentElement)
     this.onScroll()
     // this.addListener()
   }
@@ -24,6 +28,12 @@ export class Parallax {
 
   removeListener = () => {
     document.removeEventListener('scroll', this.onScroll)
+  }
+
+  removeAllListener = () => {
+    console.log('remove all ', this.element)
+    this.observer.disconnect()
+    this.removeListener()
   }
 
   onIntersection = (entries: IntersectionObserverEntry[]) => {
@@ -37,13 +47,13 @@ export class Parallax {
   }
 
   onScroll = () => {
+    console.log('scroll')
     const screenY = window.scrollY + window.innerHeight / 2
     const elementOffsetTop = offsetTop(this.element) + this.element.offsetHeight / 2
     const diff = elementOffsetTop - screenY
 
     // const diffRatio = Math.max(Math.floor(diff * this.ratio), 50)
     const diffRatio = diff * this.ratio
-    console.log(this.element.getAttribute('class'), 'diffRatio', diffRatio)
     this.element.style.setProperty(
       'transform',
       // `translateY(${diffRatio}px) translateX(${diffRatio * -1}px)`
@@ -57,11 +67,5 @@ export class Parallax {
         elementOffsetTop - screenY
       )
     }
-  }
-
-  static bind(): Parallax[] {
-    return Array.from(document.querySelectorAll('[data-parallax]')).map((element) => {
-      return new Parallax(element as HTMLElement)
-    })
   }
 }

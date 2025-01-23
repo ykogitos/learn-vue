@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { Parallax } from '@/helpers/parallax'
+import { Parallax2 } from '@/helpers/parallax2'
+import { computed, onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 
 const props = defineProps<{
   bgColor: string
   radius: number
 }>()
+
+const uuid = ref(crypto.randomUUID())
+const rootElement = ref<HTMLElement>()
+const parallalaxElements = ref<Parallax2[]>([])
 
 const radius = computed(() => props.radius + 'px')
 
@@ -25,10 +31,26 @@ const calcRadius = () =>
       height: satRadius + 'px'
     }
   })
+
+onMounted(() => {
+  const elements = document.querySelectorAll(`[data-uuid="${uuid.value}"]`)
+
+  if (props.bgColor === 'purple' || props.bgColor === 'yellow') {
+    parallalaxElements.value = Array.from(elements).map(
+      (element) => new Parallax2(rootElement.value as HTMLElement, element as HTMLElement)
+    )
+  }
+})
+
+onUnmounted(() => {
+  parallalaxElements.value.forEach((instance) => {
+    instance.removeAllListener()
+  })
+})
 </script>
 
 <template>
-  <section>
+  <section ref="rootElement">
     <slot></slot>
     <div class="round absolute"></div>
     <div
@@ -38,6 +60,7 @@ const calcRadius = () =>
       :class="`${props.bgColor} sat-${n}`"
       :style="calcRadius().value"
       :data-parallax="Math.random()"
+      :data-uuid="uuid"
     >
       {{ n }}
     </div>
@@ -66,7 +89,7 @@ section {
 
 .sat {
   background-color: black;
-  transition: all 0.2s;
+  // transition: all 0.2s;
   padding-top: 5px;
 }
 

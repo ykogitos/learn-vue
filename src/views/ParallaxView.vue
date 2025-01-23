@@ -2,7 +2,7 @@
 import TheSection from '@/components/TheSection.vue'
 import { Parallax } from '@/helpers/parallax'
 import { onMounted } from 'vue'
-onMounted(() => Parallax.bind())
+// onMounted(() => Parallax.bind())
 </script>
 
 <template>
