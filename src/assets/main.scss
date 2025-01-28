@@ -15,6 +15,7 @@ body {
 
 body.parallax #app {
   padding: 0;
+  max-width: unset;
 }
 
 body.parallax:after {

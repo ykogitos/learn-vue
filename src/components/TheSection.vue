@@ -6,11 +6,13 @@ import { computed, onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 const props = defineProps<{
   bgColor: string
   radius: number
+  useParallax?: boolean
 }>()
 
 const uuid = ref(crypto.randomUUID())
 const rootElement = ref<HTMLElement>()
 const parallalaxElements = ref<Parallax2[]>([])
+const useParallax = ref<boolean>(Boolean(props.useParallax))
 
 const radius = computed(() => props.radius + 'px')
 
@@ -33,9 +35,8 @@ const calcRadius = () =>
   })
 
 onMounted(() => {
-  const elements = document.querySelectorAll(`[data-uuid="${uuid.value}"]`)
-
-  if (props.bgColor === 'purple' || props.bgColor === 'yellow') {
+  if (useParallax.value) {
+    const elements = document.querySelectorAll(`[data-uuid="${uuid.value}"]`)
     parallalaxElements.value = Array.from(elements).map(
       (element) => new Parallax2(rootElement.value as HTMLElement, element as HTMLElement)
     )
@@ -53,17 +54,19 @@ onUnmounted(() => {
   <section ref="rootElement">
     <slot></slot>
     <div class="round absolute"></div>
-    <div
-      v-for="n in 10"
-      :key="`${bgColor}-sat-${n}`"
-      class="absolute sat"
-      :class="`${props.bgColor} sat-${n}`"
-      :style="calcRadius().value"
-      :data-parallax="Math.random()"
-      :data-uuid="uuid"
-    >
-      {{ n }}
-    </div>
+    <template v-if="useParallax">
+      <div
+        v-for="n in 10"
+        :key="`${bgColor}-sat-${n}`"
+        class="absolute sat"
+        :class="`${props.bgColor} sat-${n}`"
+        :style="calcRadius().value"
+        :data-parallax="Math.random()"
+        :data-uuid="uuid"
+      >
+        {{ n }}
+      </div>
+    </template>
   </section>
 </template>
 
@@ -73,7 +76,8 @@ section {
   max-height: 100vh;
   width: 100vw;
   max-width: calc(100vw - 17px);
-  overflow: hidden;
+  // overflow: hidden;
+  contain: paint;
   position: relative;
   background-color: v-bind(bgColor);
 }

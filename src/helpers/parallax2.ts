@@ -31,7 +31,6 @@ export class Parallax2 {
   }
 
   removeAllListener = () => {
-    console.log('remove all ', this.element)
     this.observer.disconnect()
     this.removeListener()
   }
@@ -47,7 +46,6 @@ export class Parallax2 {
   }
 
   onScroll = () => {
-    console.log('scroll')
     const screenY = window.scrollY + window.innerHeight / 2
     const elementOffsetTop = offsetTop(this.element) + this.element.offsetHeight / 2
     const diff = elementOffsetTop - screenY
