@@ -13,6 +13,7 @@ export class Parallax2 {
 
   constructor(parentElement: HTMLElement, element: HTMLElement) {
     this.parentElement = parentElement
+    console.log('parentElement', parentElement)
     this.element = element
     this.ratio = parseFloat(this.element.dataset.parallax as string)
     this.observer = new IntersectionObserver(this.onIntersection)

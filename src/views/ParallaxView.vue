@@ -39,6 +39,15 @@ main {
   max-height: 100vh;
   width: 100vw;
   max-width: calc(100vw - 17px);
+  // scroll-snap-type: y mandatory;
+  // scroll-behavior: smooth;
+  // overflow-y: auto;
+}
+
+@media (max-width: 767px) {
+  main {
+    max-width: 100vw;
+  }
 }
 
 h1,

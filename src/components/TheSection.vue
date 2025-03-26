@@ -80,6 +80,13 @@ section {
   contain: paint;
   position: relative;
   background-color: v-bind(bgColor);
+  // scroll-snap-align: center;
+}
+
+@media (max-width: 767px) {
+  section {
+    max-width: 100vw;
+  }
 }
 
 .round {
@@ -93,7 +100,7 @@ section {
 
 .sat {
   background-color: black;
-  // transition: all 0.2s;
+  transition: all 0.2s;
   padding-top: 5px;
 }
 
